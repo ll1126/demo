@@ -1,0 +1,181 @@
+.kxz-staffNum__subBox {
+  width: 49%;
+  height: 400px;
+  background-color: #fff;
+  border:1px solid #e6e6e6;
+}
+.kxz-staffNum__subBox .chartBox {
+  padding: 20px;
+}
+/* 公司人员 */
+#tj-filmStaff {
+  width: 100%;
+  height: 320px;
+}
+#tj-filmDetail {
+  width: 23%;
+  font-size: 12px;
+  color: #999;
+}
+#tj-filmDetail .curDate {
+  padding-bottom: 10px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #e6e6e6;
+}
+#tj-filmDetail li {
+  line-height: 38px;
+}
+
+#tj-filmDetail .data {
+  float: right;
+  color: #333;
+}
+
+/* 部门人员 */
+#tg-depStaff {
+  width: 100%;
+  height: 320px;
+}
+
+/* 基础概况 */
+.kxz-baseCond {
+  position: relative;
+}
+.kxz-baseCond__tabs {
+  margin: 0;
+  background-color: #fff;
+}
+/* 工龄分析的工具框 */
+.kxz-baseCond__toolBox {
+  position: absolute;
+  left: 210px;
+  top: 45px;
+  z-index: 9;
+}
+.kxz-baseCond__toolBox .openBtn {
+  padding: 0 6px;
+  cursor: pointer;
+  font-size: 28px;
+  color: #999;
+  transition: all 0.5s;
+}
+.kxz-baseCond__toolBox .openBtn.active {
+  transform: rotate(45deg);
+}
+.kxz-baseCond__toolBox .toolbarBox {
+  display: none;
+  position: relative;
+  top: 10px;
+  left: -12px;
+  width: 1000px;
+  padding: 15px;
+  border: 1px solid #e6e6e6;
+  background-color: #fff;
+  font-size: 12px;
+}
+.kxz-baseCond__toolBox .toolbarBox:before,
+.kxz-baseCond__toolBox .toolbarBox:after {
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 0;
+  border: solid transparent;
+  content: '';
+}
+.kxz-baseCond__toolBox .toolbarBox:before {
+  top: -22px;
+  left: 13px;
+  border-width: 11px;
+  border-bottom-color: #e6e6e6;
+}
+.kxz-baseCond__toolBox .toolbarBox:after {
+  top: -20px;
+  left: 14px;
+  border-width: 10px;
+  border-bottom-color: #fff;
+}
+.kxz-baseCond__toolBox .toolbarItem {
+  float: left;
+  line-height: 38px;
+  padding: 0 18px;
+  margin-right: 12px;
+  border: 1px solid #e6e6e6;
+  font-size: 14px;
+  cursor: pointer;
+}
+.kxz-baseCond__toolBox .toolbarItem.active,
+.kxz-baseCond__toolBox .toolbarItem:hover {
+  border-color: #2d8cf0;
+  color: #2d8cf0;
+}
+.kxz-baseCond__toolBox .btnBox {
+  margin-top: 70px;
+  text-align: right;
+}
+/* 选项卡 */
+.kxz-baseCond__tabs .layui-tab-item {
+  position: relative;
+}
+.kxz-baseCond__tabs .layui-tab-item > div {
+  display: none;
+  float: left;
+  box-sizing: border-box;
+  height: 415px;
+  margin-right: 1%;
+  margin-bottom: 10px;
+  border: 1px solid #e6e6e6;
+}
+.kxz-baseCond__tabs .layui-tab-item > .show {
+  display: block;
+}
+.kxz-baseCond__tabs .layui-tab-item > div.nomr {
+  margin-right: 0;
+}
+.kxz-baseCond__tabs .layui-tab-item .chart {
+  width: 100%;
+  height: 100%;
+}
+/* 工龄 */
+.kxz-baseCond__tabs .layui-tab-item .gl-box {
+  position: relative;
+  width: 42%;
+}
+/* 学历 */
+.kxz-baseCond__tabs .layui-tab-item .xl-box {
+  position: relative;
+  width: 35%;
+}
+/* 性别 */
+.kxz-baseCond__tabs .layui-tab-item .xb {
+  width: 21%;
+}
+/* 年龄 */
+.kxz-baseCond__tabs .layui-tab-item .nl {
+  width: calc(99 / 2 * 1%);
+}
+/* 人员职能 */
+.kxz-baseCond__tabs .layui-tab-item .zn {
+  width: calc(99 / 2 * 1%);
+}
+/* 岗位层级 */
+.kxz-baseCond__tabs .layui-tab-item .cj {
+  width: 45%;
+}
+/* 工作年限 */
+.kxz-baseCond__tabs .layui-tab-item .nx-box {
+  position: relative;
+  width: 32%;
+}
+/* 婚姻状况 */
+.kxz-baseCond__tabs .layui-tab-item .hy {
+  width: 21%;
+}
+/* 人员状态 */
+.kxz-baseCond__tabs .layui-tab-item .zt {
+  width: 21%;
+}
+
+/* 离职时间 */
+.leaveDate{
+  margin:10px 0;
+}

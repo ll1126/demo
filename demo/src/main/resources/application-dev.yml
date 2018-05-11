@@ -1,0 +1,116 @@
+server:
+     port: 8080
+     servlet:
+       context-path: /demo
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: test
+    password: 123456
+    # 使用druid数据源
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    filters: stat
+#    maxActive: 20
+#    initialSize: 1
+#    maxWait: 60000
+#    minIdle: 1
+#    timeBetweenEvictionRunsMillis: 60000
+#    minEvictableIdleTimeMillis: 300000
+#    validationQuery: select 'x'
+#    testWhileIdle: true
+#    testOnBorrow: false
+#    testOnReturn: false
+#    poolPreparedStatements: true
+#    maxOpenPreparedStatements: 20
+#  data:
+#    elasticsearch:
+#      cluster-name: elasticsearch
+#      cluster-nodes: 192.168.3.71:9300,192.168.3.73:9300
+#      repositories:
+#        enabled: true
+#  redis:
+#    host: 192.168.3.16
+#    password: Ji0qneD47Y2Hz7UA
+#    database: 2
+
+
+#    rabbitmq:
+#        host: 127.0.0.1
+#        port: 5672
+#        username: guest
+#        password: guest
+#        virtualHost: /
+#        publisher-confirms: false
+#        template:
+#          reply-timeout: 2000
+
+#  second-datasource:
+#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+#    url: jdbc:sqlserver://192.168.3.14;DatabaseName=ws_db
+#    username: wsdb
+#    password: wsloan123
+#    # 使用druid数据源
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    filters: stat
+#    maxActive: 20
+#    initialSize: 1
+#    maxWait: 60000
+#    minIdle: 1
+#    timeBetweenEvictionRunsMillis: 60000
+#    minEvictableIdleTimeMillis: 300000
+#    validationQuery: select 'x'
+#    testWhileIdle: true
+#    testOnBorrow: false
+#    testOnReturn: false
+#    poolPreparedStatements: true
+#    maxOpenPreparedStatements: 20
+
+#上传文件大小设置
+multipart:
+  enabled: true
+  max-file-size: 50mb
+  max-request-size: 50mb
+
+#JWT编码
+base64Security: 1abc$def2.TEZ
+#静态资源路径
+#web.upload-path: E:/javaapp/upload/
+web.upload-path: /home/wsd/
+web.upload-domain: http://127.0.0.1:8080/
+
+
+spring.mvc.static-path-pattern: /**
+#spring.resources.static-locations: classpath:/resources/,c lasspath:/templates/,classpath:/static/,file:${web.upload-path}
+spring.resources.static-locations: file:${web.upload-path}
+#logging.level.root: INFO
+
+#项目编码管理
+spring.http.encoding.force: true
+spring.http.encoding.charset: UTF-8
+spring.http.encoding.enabled: true
+server.tomcat.uri-encoding: UTF-8
+#日期返回默认格式
+spring.jackson.date-format: yyyy-MM-dd HH:mm:ss
+spring.jackson.time-zone:  GMT+8
+
+#日志配置  DEBUG    ERROR    INFO    WARN
+logging.level.root: INFO
+# 本项目主包名
+logging.level.com.wsd.active.manager.modular: INFO
+# 统一日志处理
+# 测试环境地址（生产：192.168.3.25:9222）
+#logging.logstashHost: 192.168.3.26:9222
+logging.logstashHost: 192.168.3.26:9222
+# 本项目名称（全部小写）
+# 测试环境（生产：不加"-t"）
+logging.projectName: test-t
+
+BOX.MD_5_KEY: 1888783dd7f04b4fa0d6504bb127852c
+BOX.APIURL: http://47.95.65.37/zcloud/service
+BaiduMap.Api: http://api.map.baidu.com/
+BaiduMap.ak: ZfKP19eSkmCvGbUl4MPcoGyvlEY58KEM
+
+
+#达标电量(整数谢谢)
+electric.standardElectric: 90

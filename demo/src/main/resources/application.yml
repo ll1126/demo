@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: dev
+  thymeleaf:
+    cache: false
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  config-location: classpath:mybatis/config/sqlMapConfig.xml
+  #type-aliases-package: com.xcit.server.admin.modular.system.mapper
+
+
