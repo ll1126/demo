@@ -4,93 +4,213 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>聚财人事管理系统</title>
-    <link rel="stylesheet" href="plugins/layui/css/layui.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/layui.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/element-ui/1.1.2/theme-default/index.css" rel="external nofollow" >
-    <script src="//cdn.bootcss.com/vue/2.1.8/vue.min.js"></script>
-    <script src="//cdn.bootcss.com/element-ui/1.1.2/index.js"></script>
-    <script src="//cdn.bootcss.com/vue-resource/1.0.3/vue-resource.min.js"></script>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- import Vue before Element -->
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- import vue-router.js -->
+    <script src=" https://unpkg.com/vue-router/dist/vue-router.js"></script>
 </head>
-<body style="overflow: hidden">
-<script type="text/html" id="updatepwd">
-    <form class="layui-form" action="" style="margin-top:20px;">
-        <div class="layui-form-item">
-            <label class="layui-form-label">姓名<i class="required-color">*</i>：</label>
-            <div class="layui-input-inline">
-                <input type="text" name="username" lay-verify="required" autocomplete="off" placeholder="请输入姓名"
-                       class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">旧密码<i class="required-color">*</i>：</label>
-            <div class="layui-input-inline">
-                <input type="text" name="password" lay-verify="required" autocomplete="off" placeholder="请输入旧密码"
-                       class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">新密码名<i class="required-color">*</i>：</label>
-            <div class="layui-input-inline">
-                <input type="text" name="newpassword" lay-verify="required" autocomplete="off" placeholder="请输入新密码"
-                       class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <button class="layui-btn" lay-submit lay-filter="updatePWD" style="margin-left:150px;">确认</button>
-        </div>
-    </form>
-</script>
-<div class="layui-layout layui-layout-admin">
-    <input type="hidden" id="url" th:value="${url}">
-    <div class="layui-side layui-bg-black">
-        <div class="layui-side-scroll">
-            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree" lay-filter="nav" id="menus">
-            </ul>
-        </div>
-    </div>
-    <div class="layui-body">
-        <!-- 内容主体区域 -->
-        <div class="admin-bdnav">
-                <span class="layui-breadcrumb">
-                        <a href="javascript:;">首页</a>
+<body >
+    <div id="vue">
+        <div>
+            <!-- 头部 -->
+            <header class="el-header"  style="height: 80px; background-color: rgb(73, 80, 96);">
+                <span class="header-lang is-active">
+                    header
                 </span>
-        </div>
-        <div class="layui-body-container"style="background-color: #fff;border-radius:5px;" >
-            <!-- 动态添加内容-->
-            <div id="vue">
-                <ul class="btn-edit fr">
-                    <li >
-                        <el-button type="primary" @click="dialogCreateVisible = true">添加用户</el-button>
-                        <el-button type="primary" icon="delete"  @click="removeUsers()" >删除</el-button>
-                        <el-button type="primary" icon="edit"  >停用</el-button>
-                        <el-button type="primary" icon="edit"  >激活</el-button>
-                    </li>
-                </ul>
-            </div>
-
+            </header>
+            <section class="el-container">
+                <!-- 侧边导航 -->
+                <aside class="el-aside" style="width: 300px">
+                    <el-row class="tac">
+                        <el-col :span="24">
+                            <el-menu
+                            default-active="2"
+                            unique-opened
+                            class="el-menu-vertical-demo"
+                            background-color="#FFF"
+                            text-color="#000"
+                            active-text-color="#000">
+                                <template  v-for="(item , index) in navList">
+                                　　<el-submenu :index="item.path" v-if="item.hasChild" >
+                                        <!-- 一级导航 -->
+                                        <template slot="title">
+                                            {{item.name}}
+                                        </template>
+                                        <!-- 二级导航 -->
+                                    　　<el-menu-item :index="itemChild.path" :href="item.path" v-for="(itemChild , index) in item.children" @click="handelMenu(itemChild)">
+                                        　　{{itemChild.name}}
+                                    　　</el-menu-item>
+                                    </el-submenu>    
+                            　　　 <el-menu-item :index="item.path" v-else>
+                                        {{item.name}}
+                                　　</el-menu-item>
+                        　　    </template>
+                            </el-menu>
+                        </el-col>
+                    </el-row>
+                </aside>
+                <!-- main -->
+                <section class="el-container is-vertical" style="min-width: 1000px;">
+                    <main class="el-main">
+                        <!-- 展示Tab标签 -->
+                        <div>
+                            <el-tabs v-model="activeName" type="card" closable  @tab-remove="removeTab">
+                                <el-tab-pane
+                                    :key="tab.name"
+                                    v-for="(tab, index) in tabList"
+                                    :label="tab.name"
+                                    :name="tab.name"
+                                >
+                                </el-tab-pane>
+                            </el-tabs>
+                        </div>
+                        <!-- 展示子页面 -->
+                        <div>
+                            <span>
+                                展示子页面
+                            </span>
+                             <!-- 根据路由展示 -->
+                            <router-view name="main"></router-view>
+                        </div>
+                        
+                    </main>
+                </section>
+            </section>
         </div>
     </div>
-</div>
-<script src="js/jquery-1.8.3.min.js"></script>
-<script src="plugins/layui/layui.js"></script>
-<script src="js/thirdParty/echarts.min.js"></script>
-<script src="js/thirdParty/macarons.js"></script>
-<script>
-    (function () {
-        vm = new Vue({
-            el: '#vue',
-            data:{},
-            methods:{}
-        })
 
-        $.getScript('js/modules/index.js', function (data, textStatus, jqxhr) {
-            console.log('index.js 加载成功');
-        });
-    })();
+<script>
+
+    var topCom = Vue.extend({
+        template: '<div>选项一</div>'
+    })
+
+    var top1Com = Vue.extend({
+        template: '<div>选项二</div>'
+    })
+
+    var top2Com = Vue.extend({
+        template: '<div>选项三</div>'
+    })
+
+    //路由
+    var router = new VueRouter({
+        routes:[
+            {
+                path: '/',
+                name: 'home',
+                components:{
+                
+                }
+            },
+            {
+                path: '/a',
+                name: 'a',
+                components:{
+                    main: topCom
+                }
+            },
+            {
+                path: '/aa',
+                name: 'a',
+                components:{
+                    main: top1Com
+                }
+            },
+            {
+                path: '/aaa',
+                name: 'a',
+                components:{
+                    main: top2Com
+                }
+            },
+            {   //放在最后防止空白或404
+                path:'*',
+                redirect: '/'
+             },
+
+        ]
+    })
+
+    var vm = new Vue({
+        el: '#vue',
+        //引入路由到Vue实例中
+        router,
+        data:{
+            //侧边导航
+            navList: [{name: '导航1',hasChild: true,path: "/a",children:[{name: '选项1',path: '/a'},{name: '选项2',path: '/aa'},{name: '选项3',path: '/aaa'}]}
+                        ,{name: '导航2',hasChild: true,path: "/b",children:[{name: '选项1',path: '/ab'},{name: '选项2',path: '/abb'},{name: '选项3',path: '/abbb'}]}],
+            //顶上标签页
+            tabList: [{name: '主页'}],
+            //标签页双向绑定
+            activeName: '主页'
+        },
+        //页面加载时调用
+        mounted: function(){
+            //加载左侧导航
+            this.loadMenu();
+        },
+        methods:{
+            loadMenu() {
+                // alert("页面加载");
+            },
+            //切换Tab页
+            handleClick(tab, event) {
+                console.log(tab, event);
+            },
+            //点击二级导航时
+            handelMenu(item){
+                
+                console.log(item.name);
+                //往标签页数组添加对象
+                var tab = new Object();
+                tab.name = item.name;
+                //tab标签页没存在时添加一个
+                if(!contains(this.tabList,tab)){
+                    this.tabList.push(tab);
+                }
+                //默认选中
+                this.activeName = item.name;
+                this.$router.push({path: item.path});
+            },
+            //删除tab
+            removeTab(name) {
+                removetab(this.tabList,name);
+            }
+        }
+
+    })
+
+    //删除数组里的标签
+    function removetab(arr, name) {  
+        var i = arr.length;  
+        while (i--) {  
+            if (arr[i].name === name) {
+                var index = arr.indexOf(arr[i]);
+                if (index > -1) {
+                    arr.splice(index, 1);
+                }
+                return;  
+            }  
+        }  
+    } 
+
+
+    //判断该标签页是不是在数组里了
+    function contains(arr, obj) {  
+        var i = arr.length;  
+        while (i--) {  
+            if (arr[i].name === obj.name) {  
+                return true;  
+            }  
+        }  
+        return false;  
+    } 
+
 </script>
 </body>
 </html>

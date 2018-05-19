@@ -74,6 +74,7 @@ multipart:
 
 #JWT编码
 base64Security: 1abc$def2.TEZ
+
 #静态资源路径
 #web.upload-path: E:/javaapp/upload/
 web.upload-path: /home/wsd/
@@ -96,8 +97,10 @@ spring.jackson.time-zone:  GMT+8
 
 #日志配置  DEBUG    ERROR    INFO    WARN
 logging.level.root: INFO
+
 # 本项目主包名
 logging.level.com.wsd.active.manager.modular: INFO
+
 # 统一日志处理
 # 测试环境地址（生产：192.168.3.25:9222）
 #logging.logstashHost: 192.168.3.26:9222
@@ -105,12 +108,3 @@ logging.logstashHost: 192.168.3.26:9222
 # 本项目名称（全部小写）
 # 测试环境（生产：不加"-t"）
 logging.projectName: test-t
-
-BOX.MD_5_KEY: 1888783dd7f04b4fa0d6504bb127852c
-BOX.APIURL: http://47.95.65.37/zcloud/service
-BaiduMap.Api: http://api.map.baidu.com/
-BaiduMap.ak: ZfKP19eSkmCvGbUl4MPcoGyvlEY58KEM
-
-
-#达标电量(整数谢谢)
-electric.standardElectric: 90

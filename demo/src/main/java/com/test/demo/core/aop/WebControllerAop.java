@@ -34,7 +34,7 @@ public class WebControllerAop {
 //     * 制定切点
 //     * 匹配有 CarOperatedLog 注解的所有方法
 //     */
-//    @Pointcut("@annotation(com.wsd.active.manager.core.annotation.CarOperatedLog)")
+//    @Pointcut("@annotation(com.test.demo.core.annotation.OperatedLog)")
 //    public void executeService(){
 //
 //    }
