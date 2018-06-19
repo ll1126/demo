@@ -26,6 +26,11 @@
     </properties>
 
     <dependencies>
+        <!--自动生成set get方法-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
         <!--分页插件-->
         <dependency>
             <groupId>com.github.pagehelper</groupId>

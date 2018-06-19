@@ -1,6 +1,19 @@
 package com.test.demo.entity;
 
-public class Menu {
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.io.Serializable;
+
+@Data
+@Getter
+@Setter
+@ToString
+public class Menu implements Serializable{
+
+
 
     private Integer id;
     /**
@@ -21,36 +34,4 @@ public class Menu {
         this.menuUrl = menuUrl;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getMenuName() {
-        return menuName;
-    }
-
-    public void setMenuName(String menuName) {
-        this.menuName = menuName;
-    }
-
-    public String getMenuUrl() {
-        return menuUrl;
-    }
-
-    public void setMenuUrl(String menuUrl) {
-        this.menuUrl = menuUrl;
-    }
-
-    @Override
-    public String toString() {
-        return "Menu{" +
-                "id=" + id +
-                ", menuName='" + menuName + '\'' +
-                ", menuUrl='" + menuUrl + '\'' +
-                '}';
-    }
 }
