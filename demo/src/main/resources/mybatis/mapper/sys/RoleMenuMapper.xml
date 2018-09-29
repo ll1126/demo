@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--
+******************************************************************************
+* 数据库表：t_role_menu
+* 表的名称：RoleMenu
+* 对应实体：com.test.demo.modular.game.entity.RoleMenu
+* 开发日期：2018-07-02
+* 技术服务: 
+******************************************************************************
+-->
+<mapper namespace="com.test.demo.modular.sys.mapper.RoleMenuMapper">
+
+   <!--
+    **************************************************************************
+    * 定义ResultMap
+    * 注: 实现类的属性名和数据库列名一致
+    **************************************************************************
+    -->
+    <resultMap id="BaseResultMap" type="com.test.demo.modular.sys.entity.RoleMenu">
+                   <!-- 角色id -->
+	               <result column="role_id"  property="roleId" jdbcType="INTEGER" />
+                   <!-- 菜单id -->
+	               <result column="menu_id"  property="menuId" jdbcType="INTEGER" />
+	</resultMap>
+
+    <!-- 批量生成角色和菜单关系 -->
+    <insert id="insertRoleMenu"  parameterType="HashMap">
+        INSERT
+        INTO   t_role_menu
+                (
+                    role_id     /* 角色id */
+                   ,menu_id     /* 菜单id */
+                )
+        VALUES
+        <foreach collection="menuIds" item="item" index="index" separator=",">
+            (#{roleId}, #{item})
+        </foreach>
+    </insert>
+
+    <!-- 删除角色对应关系 -->
+    <delete id="delRoleMenu" parameterType="int">
+        DELETE  FROM t_role_menu where role_id = #{roleId}
+    </delete>
+
+</mapper>

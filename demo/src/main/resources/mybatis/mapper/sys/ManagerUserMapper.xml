@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--
+******************************************************************************
+* 数据库表：t_manager_user
+* 表的名称：ManagerUser
+* 对应实体：com.test.demo.modular.game.entity.ManagerUser
+* 开发日期：2018-07-05
+* 技术服务: 
+******************************************************************************
+-->
+<mapper namespace="com.test.demo.modular.sys.mapper.ManagerUserMapper">
+
+    <!--
+    **************************************************************************
+    * 定义ResultMap
+    * 注: 实现类的属性名和数据库列名一致
+    **************************************************************************
+    -->
+    <resultMap id="BaseResultMap" type="com.test.demo.modular.sys.entity.ManagerUser">
+        <!--  -->
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <!-- 名字 -->
+        <result column="manager_name" property="managerName" jdbcType="VARCHAR"/>
+        <!-- 密码 -->
+        <result column="manager_password" property="managerPassword" jdbcType="VARCHAR"/>
+        <!-- 手机号 -->
+        <result column="manager_phone" property="managerPhone" jdbcType="VARCHAR"/>
+        <!-- 0: 男 1： 女 -->
+        <result column="manager_sex" property="managerSex" jdbcType="INTEGER"/>
+        <!-- 0: 启用  1： 禁用 -->
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <!-- 创建时间 -->
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <!-- 角色名称 -->
+        <result column="cName" property="roleName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--
+    **************************************************************************
+    * 定义查询公用查询语句
+    * 注: 实现类的属性名和数据库列名一致
+    **************************************************************************
+    -->
+    <sql id="BaseWhereSql">
+        <if test='id != null'>
+            AND tb.id = #{id} /* */
+        </if>
+        <if test='managerName != null and managerName != "" and managerName != "null" and managerName != "undefined" '>
+            AND tb.manager_name = #{managerName} /* 名字 */
+        </if>
+        <if test='managerPhone != null and managerPhone != "" and managerPhone != "null" and managerPhone != "undefined" '>
+            AND tb.manager_phone = #{managerPhone} /* 手机号 */
+        </if>
+        <if test='managerSex != null'>
+            AND tb.manager_sex = #{managerSex} /* 0: 男 1： 女 */
+        </if>
+        <if test='state != null'>
+            AND tb.state = #{state} /* 0: 启用 1： 禁用 */
+        </if>
+        <if test='createTime != null'>
+            AND date_format(tb.create_time ,'%Y-%m-%d') = #{createTime} /* 创建时间 */
+        </if>
+
+        <!-- 常用自定义字段 -->
+
+        <if test='managerNameLike != null and managerNameLike != "" and managerNameLike != "null" and managerNameLike != "undefined" '>
+            AND tb.manager_name like concat('%',#{managerNameLike},'%') /* 名字(全模糊) */
+        </if>
+        <if test='managerNameLeftLike != null and managerNameLeftLike != "" and managerNameLeftLike != "null" and managerNameLeftLike != "undefined" '>
+            AND tb.manager_name like concat(#{managerNameLeftLike},'%') /* 名字 (左模糊)*/
+        </if>
+        <if test='managerNameRightLike != null and managerNameRightLike != "" and managerNameRightLike != "null" and managerNameRightLike != "undefined" '>
+            AND tb.manager_name like concat('%',#{managerNameRightLike}) /* 名字 (右模糊)*/
+        </if>
+        <if test='managerNameNotEqual != null and managerNameNotEqual != "" and managerNameNotEqual != "null" and managerNameNotEqual != "undefined" '>
+            AND tb.manager_name <![CDATA[<>]]> #{managerNameNotEqual} /* 名字 (不等于)*/
+        </if>
+
+        <if test='managerPhoneLike != null and managerPhoneLike != "" and managerPhoneLike != "null" and managerPhoneLike != "undefined" '>
+            AND tb.manager_phone like concat('%',#{managerPhoneLike},'%') /* 手机号(全模糊) */
+        </if>
+        <if test='managerPhoneLeftLike != null and managerPhoneLeftLike != "" and managerPhoneLeftLike != "null" and managerPhoneLeftLike != "undefined" '>
+            AND tb.manager_phone like concat(#{managerPhoneLeftLike},'%') /* 手机号 (左模糊)*/
+        </if>
+        <if test='managerPhoneRightLike != null and managerPhoneRightLike != "" and managerPhoneRightLike != "null" and managerPhoneRightLike != "undefined" '>
+            AND tb.manager_phone like concat('%',#{managerPhoneRightLike}) /* 手机号 (右模糊)*/
+        </if>
+        <if test='managerPhoneNotEqual != null and managerPhoneNotEqual != "" and managerPhoneNotEqual != "null" and managerPhoneNotEqual != "undefined" '>
+            AND tb.manager_phone <![CDATA[<>]]> #{managerPhoneNotEqual} /* 手机号 (不等于)*/
+        </if>
+
+
+        <if test='createTimeBegin != null'>
+            AND tb.create_time <![CDATA[>=]]>  #{createTimeBegin} /* 创建时间 (起始日期) */
+        </if>
+        <if test='createTimeEnd != null'>
+            AND tb.create_time <![CDATA[<=]]>  #{createTimeEnd} /* 创建时间 (结束日期) */
+        </if>
+    </sql>
+
+
+    <!--
+     **************************************************************************
+     * 1.新增一条数据
+     * 注: 根据Bean实体执行新增操作.
+     **************************************************************************
+     -->
+    <insert id="getInsert"
+            parameterType="com.test.demo.modular.sys.entity.ManagerUser"
+            useGeneratedKeys="true"
+            keyProperty="id">
+    
+            INSERT
+            INTO   t_manager_user
+                    (
+                        manager_name            /* 名字 */
+                       ,manager_password        /* 密码 */
+                       ,manager_phone           /* 手机号 */
+                       ,manager_sex             /* 0: 男 1： 女 */
+                       ,state                   /* 0: 启用  1： 禁用 */
+                       ,create_time             /* 创建时间 */
+                    )
+            VALUES  (
+                        #{managerName}          /* 名字 */
+                       ,#{managerPassword}      /* 密码 */
+                       ,#{managerPhone}         /* 手机号 */
+                       ,#{managerSex}           /* 0: 男 1： 女 */
+                       ,#{state}                /* 0: 启用  1： 禁用 */
+                       ,#{createTime}           /* 创建时间 */
+                    )
+         
+    </insert>
+
+    <delete id="getDeleteById"
+            parameterType="java.lang.Integer"
+    >
+
+            DELETE   /* getDelete+@@com.test.demo.modular.game.entity.ManagerUser  */
+            FROM   t_manager_user                        /*  */
+            WHERE
+                  id =  #{_parameter} /* 主键   */
+
+    </delete>
+
+    <!-- 查询所有用户 -->
+    <select id="selAllManagerUser"
+            parameterType="com.test.demo.modular.sys.entity.code.ManagerUserCode"
+            resultMap="BaseResultMap">
+        SELECT
+        tmu.*,tr.cName
+        FROM t_manager_user tmu
+        LEFT JOIN t_manager_role tmr on tmu.id = tmr.managerId
+        LEFT JOIN t_role tr on tmr.roleId = tr.id
+        WHERE 1 = 1
+        <include refid="BaseWhereSql"/>
+    </select>
+
+    <!-- 根据姓名查询用户 -->
+    <select id="selUserBymanagerName"
+            resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM t_manager_user
+        WHERE
+        manager_name = #{managerName}
+        limit 1
+    </select>
+
+    <!-- 修改用户信息 -->
+    <update id="updateManagerUser" parameterType="com.test.demo.modular.sys.entity.ManagerUser">
+        UPDATE
+        t_manager_user
+        <trim prefix="set" prefixOverrides=",">
+            <if test='managerName != null and managerName != "" and managerName != "null" and managerName != "undefined" '>
+                ,manager_name =  #{managerName}  /* 名字 */
+            </if>
+            <if test='managerPassword != null and managerPassword != "" and managerPassword != "null" and managerPassword != "undefined" '>
+                ,manager_password = #{managerPassword}       /* 密码 */
+            </if>
+            <if test='managerPhone != null and managerPhone != "" and managerPhone != "null" and managerPhone != "undefined" '>
+                ,manager_phone =  #{managerPhone}  /* 手机号 */
+            </if>
+            <if test='managerSex != null'>
+                ,manager_sex =  #{managerSex}  /* 0: 男 1： 女 */
+            </if>
+            <if test='state != null'>
+                ,state =  #{state}  /* 0: 启用  1： 禁用 */
+            </if>
+        </trim>
+        WHERE
+        id = #{id}
+    </update>
+
+</mapper>

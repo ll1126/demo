@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--
+******************************************************************************
+* 数据库表：t_manager_role
+* 表的名称：ManagerRole
+* 对应实体：com.test.demo.modular.sys.entity.ManagerRole
+* 开发日期：2018-07-05
+* 技术服务: 
+******************************************************************************
+-->
+<mapper namespace="com.test.demo.modular.sys.mapper.ManagerRoleMapper">
+
+    <!--
+     **************************************************************************
+     * 1.新增一条数据
+     * 注: 根据Bean实体执行新增操作.
+     **************************************************************************
+     -->
+    <insert id="getInsert" parameterType="com.test.demo.modular.sys.entity.ManagerRole">
+        INSERT
+        INTO   t_manager_role
+                (
+                    managerId       /* 人员id */
+                   ,roleId          /* 角色id */
+                )
+        VALUES  (
+                    #{managerid}    /* 人员id */
+                   ,#{roleid}       /* 角色id */
+                )
+
+    </insert>
+
+    <!-- 根据用户id查询对应的角色id -->
+    <select id="selRoleByUserId" resultType="int">
+        SELECT roleId FROM t_manager_role WHERE managerId = #{userId} limit 1
+    </select>
+
+    <!-- 修改用户的角色对应id -->
+    <update id="updateByManagerId">
+        UPDATE t_manager_role SET roleId = #{arg1} where managerId = #{arg0}
+    </update>
+
+</mapper>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.test.demo.modular.sys.mapper.MenuMapper">
+    <!-- 全部菜单 -->
+    <resultMap id="BaseResultMap" type="com.test.demo.modular.sys.entity.Menu">
+        <!--  -->
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <!-- 菜单名字 -->
+        <result column="menu_name" property="menuName" jdbcType="VARCHAR"/>
+        <!-- 菜单路径 -->
+        <result column="menu_url" property="menuUrl" jdbcType="VARCHAR"/>
+        <!-- 父节点id -->
+        <result column="fPartentId" property="fpartentid" jdbcType="INTEGER"/>
+        <!-- 图标 -->
+        <result column="clconpic" property="clconpic" jdbcType="VARCHAR"/>
+        <!-- 排序 -->
+        <result column="fSort" property="fsort" jdbcType="INTEGER"/>
+        <!-- 状态 0：启用 1：禁用 -->
+        <result column="fState" property="fstate" jdbcType="INTEGER"/>
+        <!-- 创建人名字 -->
+        <result column="cCreateUser" property="ccreateuser" jdbcType="VARCHAR"/>
+        <!-- 创建日期 -->
+        <result column="tDate" property="tdate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 添加角色时用的 -->
+    <resultMap id="RoleForAllMenu" type="map">
+        <!--  -->
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <!-- 菜单名字 -->
+        <result column="menu_name" property="label" jdbcType="VARCHAR"/>
+        <!-- 子类 (一对多用collection) -->
+        <collection column="id" property="children" select="selectChildForRole">
+            <id column="id" property="id" jdbcType="INTEGER"/>
+            <result column="menu_name" property="label" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+    <!-- 左侧菜单 -->
+    <resultMap id="roleMenu" type="map">
+        <!--  -->
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <!-- 菜单名字 -->
+        <result column="menu_name" property="menuName" jdbcType="VARCHAR"/>
+        <!-- 菜单路径 -->
+        <result column="menu_url" property="menuUrl" jdbcType="VARCHAR"/>
+        <!-- 父节点id -->
+        <result column="fPartentId" property="fpartentid" jdbcType="INTEGER"/>
+        <!-- 对应角色id（查询用） -->
+        <result column="roleID" property="roleID" jdbcType="INTEGER"/>
+        <!-- 是否有子类 （一对一用association） -->
+        <association column="{id=id,roleId=roleId}" property="hasChild" javaType="INTEGER" select="selectHasChild"/>
+        <!-- 子类 (一对多用collection) -->
+        <collection column="{id=id,roleId=roleId}" property="child" select="selectChild">
+            <result column="menu_name" property="menuName" jdbcType="VARCHAR"/>
+            <result column="menu_url" property="menuUrl" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+    <!-- 查询一级菜单 -->
+    <select id="selMenu" resultMap="roleMenu">
+        SELECT
+            tm.*, trm.role_id AS roleID
+        FROM
+            t_menu tm
+        LEFT JOIN t_role_menu trm ON tm.id = trm.menu_id
+        WHERE
+            tm.fPartentId = 0
+        AND tm.fState = 0
+        AND trm.role_id = #{roleId}
+        ORDER BY
+            tm.fSort
+    </select>
+
+    <!-- 查询有无子类 -->
+    <select id="selectHasChild" parameterType="map" resultType="int">
+        SELECT
+            count(id)
+        FROM
+            t_menu tm
+        LEFT JOIN t_role_menu trm ON tm.id = trm.menu_id
+        WHERE
+            trm.role_id = #{roleId}
+        AND fPartentId = #{id}
+        AND fState = 0
+    </select>
+
+    <!-- 查询子类 -->
+    <select id="selectChild" parameterType="map" resultType="map">
+        SELECT
+            tm.menu_name AS menuName,
+            tm.menu_url AS menuUrl
+        FROM
+            t_menu tm
+        LEFT JOIN t_role_menu trm ON tm.id = trm.menu_id
+        WHERE
+            trm.role_id = #{roleId}
+        AND tm.fPartentId = #{id}
+        AND tm.fState = 0
+        ORDER BY
+            tm.fSort
+    </select>
+
+    <!-- 新增一个菜单 -->
+    <insert id="getInsert"
+            parameterType="com.test.demo.modular.sys.entity.Menu"
+            useGeneratedKeys="true"
+            keyProperty="id">
+
+        INSERT
+        INTO   t_menu
+            (
+            menu_name                /* 菜单名字 */
+            ,menu_url                /* 菜单路径 */
+            ,fPartentId              /* 父节点id */
+            ,clconpic                /* 图标 */
+            ,fSort                   /* 排序 */
+            ,fState                  /* 状态 0：启用 1：禁用 */
+            ,cCreateUser             /* 创建人名字 */
+            ,tDate                   /* 创建日期 */
+            )
+        VALUES  (
+            #{menuName}              /* 菜单名字 */
+            ,#{menuUrl}              /* 菜单路径 */
+            ,#{fpartentid}           /* 父节点id */
+            ,#{clconpic}             /* 图标 */
+            ,#{fsort}                /* 排序 */
+            ,#{fstate}               /* 状态 0：启用 1：禁用 */
+            ,#{ccreateuser}          /* 创建人名字 */
+            ,#{tdate}                /* 创建日期 */
+            )
+
+    </insert>
+
+    <!-- 根据父节点查找所有菜单 -->
+    <select id="selAllMenu" resultMap="BaseResultMap">
+        select * from t_menu where fPartentId = #{parentId} order by id
+    </select>
+
+    <!-- 删除一个菜单及其子菜单 -->
+    <delete id="delMenu">
+        DELETE FROM t_menu WHERE id = #{id} or fPartentId = #{id}
+    </delete>
+
+    <!-- 查询所有菜单节点的id和名字和子类（添加角色时勾选用） -->
+    <select id="selMenuForRole" resultMap="RoleForAllMenu">
+        select id,menu_name from t_menu where fPartentId = 0 and fState = 0 order by id
+    </select>
+
+    <select id="selectChildForRole" resultType="map">
+        select id,menu_name as label from t_menu where fPartentId = #{id} and fState = 0 order by fSort
+    </select>
+</mapper>
