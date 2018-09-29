@@ -27,7 +27,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
 
-        HttpServletRequest req = (HttpServletRequest)request;
+        HttpServletRequest req = (HttpServletRequest) request;
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
 
@@ -51,20 +51,23 @@ public class AuthInterceptor implements HandlerInterceptor {
         logger.warn(url);
 
         JsonResult res = new JsonResult();
-        Claims c =null;
+        Claims c = null;
         Integer userId = null;
+        Integer roleId = null;
         if (null == token || token.isEmpty()) {
             res.setCode(403);
             res.setMessage("token没有认证通过!原因为：客户端请求参数中无token信息");
             res.setContent(null);
         } else {
             //验证Token
-             c = JwtHelper.parseJWT(token, base64Security);
+            c = JwtHelper.parseJWT(token, base64Security);
             if (c == null) {
                 res.setCode(403);
                 res.setMessage("token没有认证通过!原因为token不存在或者已过期");
             } else {
-                 userId = JwtHelper.getUserId(token, base64Security);
+                JSONObject jsonObject = JwtHelper.getUserMessage(token, base64Security);
+                userId = jsonObject.getInteger("userId");
+                roleId = jsonObject.getInteger("roleId");
                 if (userId != null && userId != 0) {
                     request.setAttribute(ATTUser.USER_TOKEN, userId);
                 } else {
@@ -74,19 +77,19 @@ public class AuthInterceptor implements HandlerInterceptor {
                 }
             }
         }
-        if(res.getCode()==403){
-            HttpServletResponse hsp = (HttpServletResponse)response;
-            hsp.setHeader("content-type","text/html;charset=UTF-8");
+        if (res.getCode() == 403) {
+            HttpServletResponse hsp = (HttpServletResponse) response;
+            hsp.setHeader("content-type", "text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
             String resJSON = JSONObject.toJSONString(res);
             out.print(resJSON);
             return false;
         }
-        Long hour = (c.getExpiration().getTime()-(new Date()).getTime())/1000/60/60;
+        Long hour = (c.getExpiration().getTime() - (new Date()).getTime()) / 1000 / 60 / 60;
         //时间小于24小时再生成一个新的token
-        if(hour<=24){
-           String refreshToken = JwtHelper.createJWT(userId.toString(),ATTUser.Out_Hour_Pc*60*60*1000,base64Security);
-           response.setHeader("Authorization",refreshToken);
+        if (hour <= 24) {
+            String refreshToken = JwtHelper.createJWT(userId.toString(), String.valueOf(roleId), ATTUser.Out_Hour_Pc * 60 * 60 * 1000, base64Security);
+            response.setHeader("Authorization", refreshToken);
         }
 
         return true;

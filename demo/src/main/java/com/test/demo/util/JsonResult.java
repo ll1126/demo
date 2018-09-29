@@ -2,6 +2,9 @@ package com.test.demo.util;
 
 import java.io.Serializable;
 
+/**
+ * json结果返回类
+ */
 public class JsonResult implements Serializable{
 
 

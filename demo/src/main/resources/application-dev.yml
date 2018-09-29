@@ -1,13 +1,13 @@
 server:
-     port: 8080
+     port: 8888
      servlet:
        context-path: /demo
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&useSSL=false
-    username: test
-    password: 123456
+    url: jdbc:mysql://localhost:3306/user_power?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: root
     # 使用druid数据源
 #    type: com.alibaba.druid.pool.DruidDataSource
 #    filters: stat
@@ -76,8 +76,8 @@ multipart:
 base64Security: 1abc$def2.TEZ
 
 #静态资源路径
-#web.upload-path: E:/javaapp/upload/
-web.upload-path: /home/wsd/
+web.upload-path: D:/javaapp/upload/
+#web.upload-path: /home/wsd/
 web.upload-domain: http://127.0.0.1:8080/
 
 
@@ -91,7 +91,8 @@ spring.http.encoding.force: true
 spring.http.encoding.charset: UTF-8
 spring.http.encoding.enabled: true
 server.tomcat.uri-encoding: UTF-8
-#日期返回默认格式
+
+#日期返回默认格式 （不能存在带@EnableWebMvc注解的配置类，否则日期转换会失效）
 spring.jackson.date-format: yyyy-MM-dd HH:mm:ss
 spring.jackson.time-zone:  GMT+8
 
@@ -104,7 +105,7 @@ logging.level.com.wsd.active.manager.modular: INFO
 # 统一日志处理
 # 测试环境地址（生产：192.168.3.25:9222）
 #logging.logstashHost: 192.168.3.26:9222
-logging.logstashHost: 192.168.3.26:9222
+#logging.logstashHost: 192.168.3.26:9222
 # 本项目名称（全部小写）
 # 测试环境（生产：不加"-t"）
 logging.projectName: test-t
