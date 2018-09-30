@@ -6,7 +6,6 @@ public class ATTUser {
     //token role
     public static String ROLE_TOKEN = "tokenRole";
 
-
     //PC登录失效小时
     public static Integer Out_Hour_Pc = 4;
 

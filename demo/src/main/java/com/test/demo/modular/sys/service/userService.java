@@ -4,6 +4,8 @@ import com.test.demo.modular.sys.entity.ManagerUser;
 import com.test.demo.modular.sys.entity.code.ManagerUserCode;
 import com.test.demo.util.JsonResult;
 
+import javax.servlet.http.HttpServletResponse;
+
 
 public interface userService {
     /**
@@ -25,4 +27,10 @@ public interface userService {
      * @return
      */
     String insertUser(ManagerUser managerUser, Integer roleId,Integer isUpdate);
+
+    /**
+     * 导出所有用户
+     * @param response
+     */
+    void downUser(HttpServletResponse response);
 }

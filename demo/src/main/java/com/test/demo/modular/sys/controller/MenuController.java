@@ -23,7 +23,7 @@ public class MenuController {
     MenuService menuService;
 
     /**
-     * 读取用户的菜单 （目前还是全部菜单，权限还没加）
+     * 读取用户的菜单
      *
      * @return
      */

@@ -143,9 +143,7 @@ public class WebControllerAop {
 //        }
 //        return null;
 
-        /**
-         * AOP中配置跨域
-         */
+        /**   AOP中配置跨域   */
         //获取response
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         //核心设置
@@ -157,15 +155,13 @@ public class WebControllerAop {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, authorization");
 
-
         //获取RequestAttributes
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         //从获取RequestAttributes中获取HttpServletRequest的信息
         HttpServletRequest request = (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
 
-        /**
-         * 不带/api 的需要验证token
-         */
+
+        /**    不带/api 的需要验证token    */
         if (!request.getRequestURI().contains("/api")) {
             JsonResult jsonResult = verificationToken(request, response);
             //返回的code是403 没通过，直接返回

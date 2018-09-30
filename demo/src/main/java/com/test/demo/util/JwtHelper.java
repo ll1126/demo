@@ -23,6 +23,7 @@ import java.util.Map;
  * JWT工具类
  */
 public class JwtHelper {
+
     private static final Logger logger = LoggerFactory.getLogger(JwtHelper.class);
 
     /**

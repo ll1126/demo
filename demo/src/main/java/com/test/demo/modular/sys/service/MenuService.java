@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface MenuService {
     /**
-     * 读取用户的菜单 （目前还是全部菜单，权限还没加）
+     * 读取用户的菜单
      *
      * @return
      * @param request

@@ -3,6 +3,9 @@ package com.test.demo.modular.sys.entity;
 
 
 import java.util.Date;
+
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.metadata.BaseRowModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.Getter;
@@ -22,38 +25,45 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ManagerUser implements java.io.Serializable {
+public class ManagerUser  extends BaseRowModel implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+    @ExcelProperty(value = "id" ,index = 0)  //导出Excel用
     private Integer id;
     /**
      * 名字
      **/
+    @ExcelProperty(value = "名字" ,index = 1)
     private String managerName;
     /**
      * 密码
      */
+    @ExcelProperty(value = "密码" ,index = 2)
     private String managerPassword;
     /**
      * 手机号
      **/
+    @ExcelProperty(value = "手机号" ,index = 3)
     private String managerPhone;
     /**
      * 0: 男 1： 女
      **/
+    @ExcelProperty(value = "性别 0: 男 1： 女" ,index = 4)
     private Integer managerSex;
     /**
      * 0: 启用  1： 禁用
      **/
+    @ExcelProperty(value = "是否禁用 0: 启用  1： 禁用" ,index = 5)
     private Integer state;
     /**
      * 创建时间
      **/
+    @ExcelProperty(value = "创建时间" ,index = 6)
     private Date createTime;
     /**
      * 角色名称
      */
+    @ExcelProperty(value = "角色名称" ,index = 7)
     private String roleName;
 
     public ManagerUser() {

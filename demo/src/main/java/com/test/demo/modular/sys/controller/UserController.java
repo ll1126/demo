@@ -7,6 +7,7 @@ import com.test.demo.modular.sys.entity.code.ManagerUserCode;
 import com.test.demo.modular.sys.service.MenuService;
 import com.test.demo.modular.sys.service.userService;
 import com.test.demo.util.JsonResult;
+import com.test.demo.util.easyExcel.ExcelUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -57,4 +62,15 @@ public class UserController {
         }
         return new JsonResult(0, null, res);
     }
+
+    /**
+     * 导出用户 （Excel文件）
+     * @param response
+     * @throws IOException
+     */
+    @GetMapping("/api/downUser")
+    public void downUser(HttpServletResponse response) throws IOException {
+        userService.downUser(response);
+    }
+
 }

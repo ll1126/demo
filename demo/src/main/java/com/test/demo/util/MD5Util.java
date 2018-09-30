@@ -1,7 +1,5 @@
 package com.test.demo.util;
 
-import com.test.demo.modular.sys.entity.User;
-
 import java.math.BigInteger;
 import java.security.MessageDigest;
 

@@ -12,10 +12,13 @@ import com.test.demo.modular.sys.mapper.ManagerUserMapper;
 import com.test.demo.modular.sys.service.userService;
 import com.test.demo.util.JsonResult;
 import com.test.demo.util.MD5Util;
+import com.test.demo.util.easyExcel.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -83,5 +86,21 @@ public class userServiceImpl implements userService {
         }
 
         return null;
+    }
+
+    /**
+     * 导出所有用户
+     * @param response
+     */
+    public void downUser(HttpServletResponse response) {
+        List<ManagerUser> list = managerUserMapper.selAllManagerUser(null);
+        try {
+            ExcelUtil.writeExcelWithSheets(response, list, "用户", "sheet1", new ManagerUser())
+    //                .write(list, sheetName2, new ExportInfo())
+    //                .write(list, sheetName3, new ExportInfo())
+                    .finish();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
