@@ -11,7 +11,7 @@
         <!-- 菜单路径 -->
         <result column="menu_url" property="menuUrl" jdbcType="VARCHAR"/>
         <!-- 父节点id -->
-        <result column="fPartentId" property="fpartentid" jdbcType="INTEGER"/>
+        <result column="fParentId" property="fparentid" jdbcType="INTEGER"/>
         <!-- 图标 -->
         <result column="clconpic" property="clconpic" jdbcType="VARCHAR"/>
         <!-- 排序 -->
@@ -66,7 +66,7 @@
             t_menu tm
         LEFT JOIN t_role_menu trm ON tm.id = trm.menu_id
         WHERE
-            tm.fPartentId = 0
+            tm.fParentId = 0
         AND tm.fState = 0
         AND trm.role_id = #{roleId}
         ORDER BY
@@ -82,7 +82,7 @@
         LEFT JOIN t_role_menu trm ON tm.id = trm.menu_id
         WHERE
             trm.role_id = #{roleId}
-        AND fPartentId = #{id}
+        AND fParentId = #{id}
         AND fState = 0
     </select>
 
@@ -96,7 +96,7 @@
         LEFT JOIN t_role_menu trm ON tm.id = trm.menu_id
         WHERE
             trm.role_id = #{roleId}
-        AND tm.fPartentId = #{id}
+        AND tm.fParentId = #{id}
         AND tm.fState = 0
         ORDER BY
             tm.fSort
@@ -113,7 +113,7 @@
             (
             menu_name                /* 菜单名字 */
             ,menu_url                /* 菜单路径 */
-            ,fPartentId              /* 父节点id */
+            ,fParentId              /* 父节点id */
             ,clconpic                /* 图标 */
             ,fSort                   /* 排序 */
             ,fState                  /* 状态 0：启用 1：禁用 */
@@ -123,7 +123,7 @@
         VALUES  (
             #{menuName}              /* 菜单名字 */
             ,#{menuUrl}              /* 菜单路径 */
-            ,#{fpartentid}           /* 父节点id */
+            ,#{fparentid}           /* 父节点id */
             ,#{clconpic}             /* 图标 */
             ,#{fsort}                /* 排序 */
             ,#{fstate}               /* 状态 0：启用 1：禁用 */
@@ -135,7 +135,7 @@
 
     <!-- 根据父节点查找所有菜单 -->
     <select id="selAllMenu" resultMap="BaseResultMap">
-        select * from t_menu where fPartentId = #{parentId} order by id
+        select * from t_menu where fParentId = #{parentId} order by id
     </select>
 
     <!-- 删除一个菜单及其子菜单 -->
@@ -145,10 +145,10 @@
 
     <!-- 查询所有菜单节点的id和名字和子类（添加角色时勾选用） -->
     <select id="selMenuForRole" resultMap="RoleForAllMenu">
-        select id,menu_name from t_menu where fPartentId = 0 and fState = 0 order by id
+        select id,menu_name from t_menu where fParentId = 0 and fState = 0 order by id
     </select>
 
     <select id="selectChildForRole" resultType="map">
-        select id,menu_name as label from t_menu where fPartentId = #{id} and fState = 0 order by fSort
+        select id,menu_name as label from t_menu where fParentId = #{id} and fState = 0 order by fSort
     </select>
 </mapper>

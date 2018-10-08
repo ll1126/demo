@@ -41,7 +41,7 @@ public class Menu implements java.io.Serializable {
     /**
      * 父节点id
      **/
-    private Integer fpartentid;
+    private Integer fparentid;
     /**
      * 图标
      **/
@@ -74,11 +74,11 @@ public class Menu implements java.io.Serializable {
     public Menu() {
     }
 
-    public Menu(Integer id, String menuName, String menuUrl, Integer fpartentid, String clconpic, Integer fsort, Integer fstate, String ccreateuser, Date tdate, Integer hasChild, List<Map> child) {
+    public Menu(Integer id, String menuName, String menuUrl, Integer fparentid, String clconpic, Integer fsort, Integer fstate, String ccreateuser, Date tdate, Integer hasChild, List<Map> child) {
         this.id = id;
         this.menuName = menuName;
         this.menuUrl = menuUrl;
-        this.fpartentid = fpartentid;
+        this.fparentid = fparentid;
         this.clconpic = clconpic;
         this.fsort = fsort;
         this.fstate = fstate;

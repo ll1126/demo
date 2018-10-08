@@ -3,6 +3,7 @@ package com.test.demo.modular.sys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.StringUtil;
 import com.test.demo.common.dto.Page;
 import com.test.demo.common.dto.PageUtils;
 import com.test.demo.modular.sys.entity.Role;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Array;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,19 +30,36 @@ public class RoleServiceImpl implements RoleService {
     private RoleMapper roleMapper;
 
     /**
-     * 添加一个角色
+     * 新增一个角色 /修改角色信息
+     *
+     * @param role      角色实体类
+     * @param checkMenu 选中的菜单id 字符串
+     * @param isUpdate  0：新增  1：修改
+     * @return
      */
     @Transactional
-    public String addRole(Role role, String checkMenu) {
-        //添加角色信息
-        role.setTdate(new Date());
-        role.setTupdatedate(new Date());
-        roleMapper.insertRole(role);
+    public String addRole(Role role, String checkMenu, Integer isUpdate) {
+        if (isUpdate == 0) {
+            //添加角色信息
 
-        //添加角色对应的菜单节点权限
+            role.setTdate(new Date());
+            role.setTupdatedate(new Date());
+            roleMapper.insertRole(role);
+        } else if (isUpdate == 1) {
+            //修改
+
+            Integer count = roleMapper.updateRole(role);
+            if (count == 0) {
+                return "无该角色";
+            }
+            if (StringUtil.isNotEmpty(checkMenu)) {
+                //删除之前的菜单信息
+                roleMenuMapper.delRoleMenu(role.getId());
+            }
+        }
         System.out.println(checkMenu);
         //选中菜单id 不为空时
-        if(checkMenu!=null && !checkMenu.isEmpty()){
+        if (StringUtil.isNotEmpty(checkMenu)) {
             String[] checks = checkMenu.split(",");
             Map<String, Object> parames = new HashMap<String, Object>();
             parames.put("roleId", role.getId());
@@ -54,9 +71,10 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * 查询所有角色
-     * @return
+     *
      * @param pageNum
      * @param pageSize
+     * @return
      */
     public JsonResult selRole(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -69,6 +87,7 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * 删除一个角色
+     *
      * @param id
      */
     @Transactional
@@ -81,10 +100,34 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * 加载所有可选角色
+     *
      * @return
      */
     public List<Map> loadRole() {
         return roleMapper.loadRole();
+    }
+
+    /**
+     * 修改角色信息
+     *
+     * @param role
+     * @param checkMenu
+     * @return
+     */
+    @Override
+    public String updateRole(Role role, String checkMenu) {
+
+        Integer count = roleMapper.updateRole(role);
+        if (count == 0) {
+            return "无该角色";
+        }
+        //checkMenu 不为空时
+        if (StringUtil.isNotEmpty(checkMenu)) {
+            //修改有权限的菜单
+
+        }
+
+        return null;
     }
 
 }

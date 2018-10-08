@@ -24,50 +24,70 @@ public class RoleController {
     RoleService roleService;
 
     /**
-     * 新增一个角色
+     * 新增一个角色 /修改角色信息
      *
-     * @param role 角色实体类
+     * @param role      角色实体类
+     * @param checkMenu 选中的菜单id 字符串
+     * @param isUpdate  0：新增  1：修改
      * @return
      */
     @PostMapping("/insertRole")
-    public JsonResult insertRole(Role role,String checkMenu) {
-        String res = roleService.addRole(role,checkMenu);
-        if(res!=null){
-            return new JsonResult(1,null,res);
+    public JsonResult insertRole(Role role, String checkMenu, Integer isUpdate) {
+        String res = roleService.addRole(role, checkMenu, isUpdate);
+        if (res != null) {
+            return new JsonResult(1, null, res);
         }
-        return new JsonResult(0,null,"添加角色成功了耶( •̀ ω •́ )y");
+        return new JsonResult(0, null, "添加角色成功了耶( •̀ ω •́ )y");
     }
 
     /**
      * 查询所有角色(分页)
+     *
      * @param pageNum
      * @param pageSize
      * @return
      */
     @GetMapping("/selAllRole")
-    public JsonResult selAllRole(Integer pageNum,Integer pageSize) {
+    public JsonResult selAllRole(Integer pageNum, Integer pageSize) {
 
-        return roleService.selRole(pageNum,pageSize);
+        return roleService.selRole(pageNum, pageSize);
     }
 
     /**
      * 删除一个角色
+     *
      * @param id
      * @return
      */
     @GetMapping("/delRole")
     public JsonResult delRole(Integer id) {
         roleService.delRole(id);
-        return new JsonResult(0,null ,"删除成功");
+        return new JsonResult(0, null, "删除成功");
     }
 
     /**
      * 查询所有可选角色 不分页
+     *
      * @return
      */
     @GetMapping("/loadRole")
     public JsonResult loadRole() {
         List<Map> list = roleService.loadRole();
-        return new JsonResult(0,list ,"可选角色");
+        return new JsonResult(0, list, "可选角色");
+    }
+
+    /**
+     * 修改角色信息
+     *
+     * @param role 角色实体类
+     * @return
+     */
+    @PostMapping("/updateRole")
+    public JsonResult updateRole(Role role, String checkMenu) {
+        String res = roleService.updateRole(role, checkMenu);
+        if (res != null) {
+            return new JsonResult(1, null, res);
+        }
+        return new JsonResult(0, null, "修改角色成功了耶( •̀ ω •́ )y");
     }
 }

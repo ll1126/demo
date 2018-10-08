@@ -31,6 +31,8 @@
         <result column="fState" property="fstate" jdbcType="INTEGER"/>
         <!-- 最后修改时间 -->
         <result column="tUpdateDate" property="tupdatedate" jdbcType="TIMESTAMP"/>
+        <!-- 已选的菜单（父节点不要） -->
+        <association column="{id=id}" property="menuData" javaType="string" select="selectCheckMenu"/>
     </resultMap>
 
     <!--
@@ -57,7 +59,7 @@
                         #{cname}   /* 角色名字 */
                        ,#{cdesc}   /* 角色描述 */
                        ,#{tdate}   /* 创建时间 */
-                       ,#{fstate}   /* 状态 0：启用 1： 禁用 */
+                       ,#{fstate}  /* 状态 0：启用 1： 禁用 */
                        ,#{tupdatedate}   /* 最后修改时间 */
                     )
 
@@ -65,13 +67,14 @@
 
     <!-- 查询所有角色 -->
     <select id="selectRole" resultMap="BaseResultMap">
-        select * from t_role
+        SELECT * FROM t_role
     </select>
 
     <!-- 删除角色 -->
     <delete id="delRole" parameterType="int">
         DELETE  FROM t_role where id = #{roleId}
     </delete>
+
     <!-- 所有可选角色 -->
     <select id="loadRole" resultType="java.util.Map">
         SELECT
@@ -82,4 +85,34 @@
         WHERE
             fState = 0
     </select>
+
+    <!-- 根据角色id查找已选菜单id(是父节点的不要) -->
+    <select id="selectCheckMenu" resultType="string">
+        SELECT GROUP_CONCAT(menu_id separator ',') AS menuData
+        FROM t_role_menu
+        where role_id = #{id}
+        AND menu_id NOT IN(SELECT DISTINCT fParentid FROM t_menu)
+    </select>
+
+    <!-- 修改角色信息 -->
+    <update id="updateRole">
+        UPDATE
+        t_role
+        <trim prefix="set" prefixOverrides=",">
+            <if test='cname != null and cname != "" and cname != "null" and cname != "undefined" '>
+                ,cName =  #{cname}  /* 角色名字 */
+            </if>
+            <if test='cdesc != null and cdesc != "" and cdesc != "null" and cdesc != "undefined" '>
+                ,cDesc = #{cdesc}   /* 角色描述 */
+            </if>
+            <if test='fstate != null'>
+                ,fState =  #{fstate}  /* 状态 0：启用 1： 禁用 */
+            </if>
+            <if test='tupdatedate != null and tupdatedate != "" and tupdatedate != "null" and tupdatedate != "undefined" '>
+                ,tUpdateDate =  #{tupdatedate}  /* 最后修改时间 */
+            </if>
+        </trim>
+        WHERE
+        id = #{id}
+    </update>
 </mapper>

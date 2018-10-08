@@ -35,6 +35,8 @@
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <!-- 角色名称 -->
         <result column="cName" property="roleName" jdbcType="VARCHAR"/>
+        <!-- 角色ID -->
+        <result column="roleId" property="roleId" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--
@@ -149,7 +151,7 @@
             parameterType="com.test.demo.modular.sys.entity.code.ManagerUserCode"
             resultMap="BaseResultMap">
         SELECT
-        tmu.*,tr.cName
+        tmu.*,tr.cName,tmr.roleId
         FROM t_manager_user tmu
         LEFT JOIN t_manager_role tmr on tmu.id = tmr.managerId
         LEFT JOIN t_role tr on tmr.roleId = tr.id

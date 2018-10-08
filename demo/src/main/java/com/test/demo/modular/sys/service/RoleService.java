@@ -9,9 +9,14 @@ import java.util.Map;
 
 public interface RoleService {
     /**
-     * 添加一个角色
+     * 新增一个角色 /修改角色信息
+     *
+     * @param role      角色实体类
+     * @param checkMenu 选中的菜单id 字符串
+     * @param isUpdate  0：新增  1：修改
+     * @return
      */
-    String addRole(Role role, String checkMenu);
+    String addRole(Role role, String checkMenu, Integer isUpdate);
 
     /**
      * 查询所有角色
@@ -35,4 +40,13 @@ public interface RoleService {
      * @return
      */
     List<Map> loadRole();
+
+    /**
+     * 修改角色信息
+     *
+     * @param role
+     * @param checkMenu
+     * @return
+     */
+    String updateRole(Role role, String checkMenu);
 }
