@@ -114,24 +114,25 @@
             useGeneratedKeys="true"
             keyProperty="id">
     
-            INSERT
-            INTO   t_manager_user
-                    (
-                        manager_name            /* 名字 */
-                       ,manager_password        /* 密码 */
-                       ,manager_phone           /* 手机号 */
-                       ,manager_sex             /* 0: 男 1： 女 */
-                       ,state                   /* 0: 启用  1： 禁用 */
-                       ,create_time             /* 创建时间 */
-                    )
-            VALUES  (
-                        #{managerName}          /* 名字 */
-                       ,#{managerPassword}      /* 密码 */
-                       ,#{managerPhone}         /* 手机号 */
-                       ,#{managerSex}           /* 0: 男 1： 女 */
-                       ,#{state}                /* 0: 启用  1： 禁用 */
-                       ,#{createTime}           /* 创建时间 */
-                    )
+        INSERT
+        INTO   t_manager_user
+            (
+                manager_name            /* 名字 */
+               ,manager_password        /* 密码 */
+               ,manager_phone           /* 手机号 */
+               ,manager_sex             /* 0: 男 1： 女 */
+               ,state                   /* 0: 启用  1： 禁用 */
+               ,create_time             /* 创建时间 */
+            )
+        VALUES
+            (
+                #{managerName}          /* 名字 */
+               ,#{managerPassword}      /* 密码 */
+               ,#{managerPhone}         /* 手机号 */
+               ,#{managerSex}           /* 0: 男 1： 女 */
+               ,#{state}                /* 0: 启用  1： 禁用 */
+               ,#{createTime}           /* 创建时间 */
+            )
          
     </insert>
 
@@ -139,10 +140,11 @@
             parameterType="java.lang.Integer"
     >
 
-            DELETE   /* getDelete+@@com.test.demo.modular.game.entity.ManagerUser  */
-            FROM   t_manager_user                        /*  */
-            WHERE
-                  id =  #{_parameter} /* 主键   */
+        DELETE   /* getDelete+@@com.test.demo.modular.game.entity.ManagerUser  */
+        FROM
+            t_manager_user                        /*  */
+        WHERE
+            id =  #{_parameter} /* 主键   */
 
     </delete>
 
@@ -151,10 +153,13 @@
             parameterType="com.test.demo.modular.sys.entity.code.ManagerUserCode"
             resultMap="BaseResultMap">
         SELECT
-        tmu.*,tr.cName,tmr.roleId
-        FROM t_manager_user tmu
-        LEFT JOIN t_manager_role tmr on tmu.id = tmr.managerId
-        LEFT JOIN t_role tr on tmr.roleId = tr.id
+            tmu.*,tr.cName,tmr.roleId
+        FROM
+            t_manager_user tmu
+        LEFT JOIN
+            t_manager_role tmr on tmu.id = tmr.managerId
+        LEFT JOIN
+            t_role tr on tmr.roleId = tr.id
         WHERE 1 = 1
         <include refid="BaseWhereSql"/>
     </select>
@@ -163,17 +168,30 @@
     <select id="selUserBymanagerName"
             resultMap="BaseResultMap">
         SELECT
-        *
-        FROM t_manager_user
+            *
+        FROM
+            t_manager_user
         WHERE
-        manager_name = #{managerName}
-        limit 1
+            manager_name = #{managerName}
+        LIMIT 1
+    </select>
+
+    <!-- 根据id查询用户 -->
+    <select id="selUserBymanagerId"
+            resultMap="BaseResultMap">
+        SELECT
+            *
+        FROM
+            t_manager_user
+        WHERE
+            id = #{id}
+        LIMIT 1
     </select>
 
     <!-- 修改用户信息 -->
     <update id="updateManagerUser" parameterType="com.test.demo.modular.sys.entity.ManagerUser">
         UPDATE
-        t_manager_user
+            t_manager_user
         <trim prefix="set" prefixOverrides=",">
             <if test='managerName != null and managerName != "" and managerName != "null" and managerName != "undefined" '>
                 ,manager_name =  #{managerName}  /* 名字 */
@@ -192,7 +210,7 @@
             </if>
         </trim>
         WHERE
-        id = #{id}
+            id = #{id}
     </update>
 
 </mapper>

@@ -46,7 +46,7 @@
         <!-- 菜单路径 -->
         <result column="menu_url" property="menuUrl" jdbcType="VARCHAR"/>
         <!-- 父节点id -->
-        <result column="fPartentId" property="fpartentid" jdbcType="INTEGER"/>
+        <result column="fParentId" property="fparentid" jdbcType="INTEGER"/>
         <!-- 对应角色id（查询用） -->
         <result column="roleID" property="roleID" jdbcType="INTEGER"/>
         <!-- 是否有子类 （一对一用association） -->
@@ -135,20 +135,68 @@
 
     <!-- 根据父节点查找所有菜单 -->
     <select id="selAllMenu" resultMap="BaseResultMap">
-        select * from t_menu where fParentId = #{parentId} order by id
+        SELECT
+            *
+        FROM
+            t_menu
+        WHERE
+            fParentId = #{parentId}
+        ORDER BY id
     </select>
 
     <!-- 删除一个菜单及其子菜单 -->
     <delete id="delMenu">
-        DELETE FROM t_menu WHERE id = #{id} or fPartentId = #{id}
+        DELETE FROM
+            t_menu
+        WHERE
+            id = #{id} OR fParentId = #{id}
     </delete>
 
     <!-- 查询所有菜单节点的id和名字和子类（添加角色时勾选用） -->
     <select id="selMenuForRole" resultMap="RoleForAllMenu">
-        select id,menu_name from t_menu where fParentId = 0 and fState = 0 order by id
+        SELECT
+            id,menu_name
+        FROM
+            t_menu
+        WHERE
+            fParentId = 0 AND fState = 0
+        ORDER BY id
     </select>
 
     <select id="selectChildForRole" resultType="map">
-        select id,menu_name as label from t_menu where fParentId = #{id} and fState = 0 order by fSort
+        SELECT
+            id,menu_name AS label
+        FROM
+            t_menu
+        WHERE
+            fParentId = #{id} AND fState = 0
+        ORDER BY fSort
     </select>
+
+    <update id="updateMenu">
+        UPDATE
+            t_menu
+        <trim prefix="set" prefixOverrides=",">
+            <if test='menuName != null and menuName != "" and menuName != "null" and menuName != "undefined" '>
+                ,menu_name =  #{menuName}  /* 菜单名字 */
+            </if>
+            <if test='menuUrl != null and menuUrl != "" and menuUrl != "null" and menuUrl != "undefined" '>
+                ,menu_url = #{menuUrl}   /* 菜单路径 */
+            </if>
+            <if test='fparentid != null'>
+                ,fParentId =  #{fparentid}  /* 父节点id */
+            </if>
+            <if test='clconpic != null and clconpic != "" and clconpic != "null" and clconpic != "undefined" '>
+                ,clconpic =  #{clconpic}  /* 图标 */
+            </if>
+            <if test='fsort != null'>
+                ,fSort =  #{fsort}  /* 排序 */
+            </if>
+            <if test='fstate != null and fstate != "" and fstate != "null" and fstate != "undefined" '>
+                ,fState =  #{fstate}  /* 状态 0：启用 1：禁用 */
+            </if>
+        </trim>
+        WHERE
+            id = #{id}
+    </update>
 </mapper>

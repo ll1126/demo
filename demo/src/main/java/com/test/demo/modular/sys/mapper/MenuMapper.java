@@ -9,6 +9,7 @@ import java.util.Map;
 public interface MenuMapper {
     /**
      * 根据用户角色查找可用菜单（目前找全部）
+     *
      * @param roleId 角色id
      * @return
      */
@@ -31,6 +32,7 @@ public interface MenuMapper {
 
     /**
      * 删除一个菜单及其子菜单
+     *
      * @param id 菜单id
      * @return
      */
@@ -38,7 +40,16 @@ public interface MenuMapper {
 
     /**
      * 查询所有菜单节点的id和名字和子类（添加角色时勾选用）
+     *
      * @return
      */
     List<Map> selMenuForRole();
+
+    /**
+     * 根据ID 修改菜单
+     *
+     * @param menu
+     * @return
+     */
+    Integer updateMenu(Menu menu);
 }

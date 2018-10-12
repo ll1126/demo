@@ -26,13 +26,11 @@ public class MenuServiceImpl implements MenuService {
     /**
      * 读取用户的菜单
      *
+     * @param roleId 角色id
      * @return
-     * @param request
      */
-    public JsonResult selMenu(HttpServletRequest request) {
-        //从token里拿userid
-        String roleId = String.valueOf(request.getAttribute(ATTUser.ROLE_TOKEN));
-        System.out.println("roleId:"+ roleId);
+    public JsonResult selMenu(String roleId) {
+        System.out.println("roleId:" + roleId);
         List<Map> list = menuMapper.selMenu(Integer.valueOf(roleId));
         return new JsonResult(list);
     }
@@ -40,12 +38,21 @@ public class MenuServiceImpl implements MenuService {
     /**
      * 创建一个菜单
      *
-     * @param menu
+     * @param menu 菜单实体类
+     * @param isUpdate true: 修改菜单 false: 添加菜单
      * @return
      */
-    public void insertMenu(Menu menu) {
-        menu.setTdate(new Date());
-        menuMapper.getInsert(menu);
+    public JsonResult insertMenu(Menu menu, boolean isUpdate) {
+        if (isUpdate) {
+            //修改
+            menuMapper.updateMenu(menu);
+            return new JsonResult(0, null, "修改菜单成功");
+        } else {
+            menu.setTdate(new Date());
+            menuMapper.getInsert(menu);
+            return new JsonResult(0, null, "添加菜单成功");
+        }
+
     }
 
     /**
@@ -62,11 +69,14 @@ public class MenuServiceImpl implements MenuService {
         // 取分页信息
         PageInfo pageInfo = new PageInfo(list);
         Page page = PageUtils.getConvertPage(pageNum, pageSize, list, pageInfo);
+        //查一下上一级的父id
+
         return new JsonResult(page);
     }
 
     /**
      * 删除一个菜单 （包括其下子菜单）
+     *
      * @param id 菜单id
      * @return
      */

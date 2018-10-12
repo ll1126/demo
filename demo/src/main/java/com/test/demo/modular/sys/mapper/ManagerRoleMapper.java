@@ -24,12 +24,14 @@ public interface ManagerRoleMapper {
 
     /**
      * 根据用户id查询对应的角色id
+     *
      * @return
      */
     Integer selRoleByUserId(Integer userId);
 
     /**
      * 修改用户的角色对应id
+     *
      * @param userId
      * @param roleId
      * @return

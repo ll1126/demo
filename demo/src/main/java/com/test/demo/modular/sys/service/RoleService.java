@@ -30,7 +30,7 @@ public interface RoleService {
     /**
      * 删除角色
      *
-     * @param id
+     * @param id 要删除的角色id
      */
     void delRole(Integer id);
 
@@ -41,12 +41,4 @@ public interface RoleService {
      */
     List<Map> loadRole();
 
-    /**
-     * 修改角色信息
-     *
-     * @param role
-     * @param checkMenu
-     * @return
-     */
-    String updateRole(Role role, String checkMenu);
 }

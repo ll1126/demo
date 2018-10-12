@@ -40,12 +40,6 @@ public class AuthInterceptor implements HandlerInterceptor {
         resp.setHeader("Access-Control-Max-Age", "3600");
         resp.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept,Authorization");
 
-        //排除不需要验证token的
-//        if(req.getRequestURI().contains("/api/home/login") || req.getRequestURI().contains("/api/pc") || req.getRequestURI().contains("AcceptReport")){
-//
-//
-//            return true;
-//        }
         String token = req.getHeader("Authorization");
         String url = req.getRequestURI();
         logger.warn(url);

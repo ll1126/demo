@@ -1,8 +1,6 @@
 package com.test.demo.modular.sys.controller;
 
-import com.test.demo.modular.sys.entity.Menu;
 import com.test.demo.modular.sys.entity.Role;
-import com.test.demo.modular.sys.service.MenuService;
 import com.test.demo.modular.sys.service.RoleService;
 import com.test.demo.util.JsonResult;
 import io.swagger.annotations.Api;
@@ -37,7 +35,8 @@ public class RoleController {
         if (res != null) {
             return new JsonResult(1, null, res);
         }
-        return new JsonResult(0, null, "添加角色成功了耶( •̀ ω •́ )y");
+        String mes = isUpdate == 0 ? "添加角色成功了耶( •̀ ω •́ )y" : "修改角色成功了耶( •̀ ω •́ )y";
+        return new JsonResult(0, null, mes);
     }
 
     /**
@@ -56,7 +55,7 @@ public class RoleController {
     /**
      * 删除一个角色
      *
-     * @param id
+     * @param id 要删除的角色id
      * @return
      */
     @GetMapping("/delRole")
@@ -76,18 +75,4 @@ public class RoleController {
         return new JsonResult(0, list, "可选角色");
     }
 
-    /**
-     * 修改角色信息
-     *
-     * @param role 角色实体类
-     * @return
-     */
-    @PostMapping("/updateRole")
-    public JsonResult updateRole(Role role, String checkMenu) {
-        String res = roleService.updateRole(role, checkMenu);
-        if (res != null) {
-            return new JsonResult(1, null, res);
-        }
-        return new JsonResult(0, null, "修改角色成功了耶( •̀ ω •́ )y");
-    }
 }

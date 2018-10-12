@@ -21,25 +21,37 @@
     <insert id="getInsert" parameterType="com.test.demo.modular.sys.entity.ManagerRole">
         INSERT
         INTO   t_manager_role
-                (
-                    managerId       /* 人员id */
-                   ,roleId          /* 角色id */
-                )
-        VALUES  (
-                    #{managerid}    /* 人员id */
-                   ,#{roleid}       /* 角色id */
-                )
+            (
+                managerId       /* 人员id */
+               ,roleId          /* 角色id */
+            )
+        VALUES
+            (
+                #{managerid}    /* 人员id */
+               ,#{roleid}       /* 角色id */
+            )
 
     </insert>
 
     <!-- 根据用户id查询对应的角色id -->
     <select id="selRoleByUserId" resultType="int">
-        SELECT roleId FROM t_manager_role WHERE managerId = #{userId} limit 1
+        SELECT
+            roleId
+        FROM
+            t_manager_role
+        WHERE
+            managerId = #{userId}
+        LIMIT 1
     </select>
 
     <!-- 修改用户的角色对应id -->
     <update id="updateByManagerId">
-        UPDATE t_manager_role SET roleId = #{arg1} where managerId = #{arg0}
+        UPDATE
+            t_manager_role
+        SET
+            roleId = #{arg1}
+        WHERE
+            managerId = #{arg0}
     </update>
 
 </mapper>

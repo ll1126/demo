@@ -45,7 +45,16 @@ public interface ManagerUserMapper {
     ManagerUser selUserBymanagerName(String managerName);
 
     /**
+     * 根据id查询用户
+     *
+     * @param id
+     * @return
+     */
+    ManagerUser selUserBymanagerId(String id);
+
+    /**
      * 修改用户信息
+     *
      * @param managerUser
      * @return
      */

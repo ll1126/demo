@@ -47,7 +47,6 @@ public class RoleServiceImpl implements RoleService {
             roleMapper.insertRole(role);
         } else if (isUpdate == 1) {
             //修改
-
             Integer count = roleMapper.updateRole(role);
             if (count == 0) {
                 return "无该角色";
@@ -57,7 +56,6 @@ public class RoleServiceImpl implements RoleService {
                 roleMenuMapper.delRoleMenu(role.getId());
             }
         }
-        System.out.println(checkMenu);
         //选中菜单id 不为空时
         if (StringUtil.isNotEmpty(checkMenu)) {
             String[] checks = checkMenu.split(",");
@@ -88,7 +86,7 @@ public class RoleServiceImpl implements RoleService {
     /**
      * 删除一个角色
      *
-     * @param id
+     * @param id 要删除的角色id
      */
     @Transactional
     public void delRole(Integer id) {
@@ -105,29 +103,6 @@ public class RoleServiceImpl implements RoleService {
      */
     public List<Map> loadRole() {
         return roleMapper.loadRole();
-    }
-
-    /**
-     * 修改角色信息
-     *
-     * @param role
-     * @param checkMenu
-     * @return
-     */
-    @Override
-    public String updateRole(Role role, String checkMenu) {
-
-        Integer count = roleMapper.updateRole(role);
-        if (count == 0) {
-            return "无该角色";
-        }
-        //checkMenu 不为空时
-        if (StringUtil.isNotEmpty(checkMenu)) {
-            //修改有权限的菜单
-
-        }
-
-        return null;
     }
 
 }

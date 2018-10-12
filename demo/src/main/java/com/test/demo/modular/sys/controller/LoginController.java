@@ -29,8 +29,8 @@ public class LoginController {
      * @return
      */
     @PostMapping("/login")
-    public JsonResult insertUser(String userName,String password) {
-        return loginService.login(userName,password);
+    public JsonResult insertUser(String userName, String password) {
+        return loginService.login(userName, password);
     }
 
 }

@@ -6,7 +6,6 @@ import java.util.List;
 
 public class PageUtils {
 
-
     public static  Page getConvertPage(Integer pageNum, Integer pageSize, List list, PageInfo pageInfo) {
         Page page = new Page();
         page.setPageNum(pageNum);
@@ -19,7 +18,6 @@ public class PageUtils {
         page.setTotalPageNum(totalPageNum);
         //返回后当前页
         page.setPageCurrentNum(page.getPageNum()+1);
-
         return page;
     }
 }

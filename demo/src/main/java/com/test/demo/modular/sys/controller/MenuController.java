@@ -1,5 +1,6 @@
 package com.test.demo.modular.sys.controller;
 
+import com.test.demo.core.auth.ATTUser;
 import com.test.demo.modular.sys.entity.Menu;
 import com.test.demo.modular.sys.service.MenuService;
 import com.test.demo.util.JsonResult;
@@ -29,7 +30,9 @@ public class MenuController {
      */
     @GetMapping("/selMenu")
     public JsonResult selMenu(HttpServletRequest request) {
-        return menuService.selMenu(request);
+        //从token里拿userid
+        String roleId = String.valueOf(request.getAttribute(ATTUser.ROLE_TOKEN));
+        return menuService.selMenu(roleId);
     }
 
     /**
@@ -42,19 +45,20 @@ public class MenuController {
      */
     @GetMapping("/selAllMenu")
     public JsonResult selAllMenu(Integer parentId, Integer pageNum, Integer pageSize) {
-        return menuService.selAllMenu(parentId,pageNum,pageSize);
+        return menuService.selAllMenu(parentId, pageNum, pageSize);
     }
 
     /**
-     * 新增一个菜单
+     * 新增一个菜单 / 修改一个菜单
      *
-     * @param menu 菜单实体类
+     * @param menu     菜单实体类
+     * @param isUpdate true 修改 false 添加
      * @return
      */
     @PostMapping("/insertMenu")
-    public JsonResult insertMenu(Menu menu) {
-        menuService.insertMenu(menu);
-        return new JsonResult();
+    public JsonResult insertMenu(Menu menu, boolean isUpdate) {
+
+        return menuService.insertMenu(menu, isUpdate);
     }
 
     /**

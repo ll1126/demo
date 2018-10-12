@@ -12,18 +12,19 @@ public interface MenuService {
     /**
      * 读取用户的菜单
      *
+     * @param roleId 角色id
      * @return
-     * @param request
      */
-    JsonResult selMenu(HttpServletRequest request);
+    JsonResult selMenu(String roleId);
 
     /**
      * 创建一个菜单
      *
-     * @param menu
+     * @param menu 菜单实体类
+     * @param isUpdate true：修改菜单  false：添加菜单
      * @return
      */
-    void insertMenu(Menu menu);
+    JsonResult insertMenu(Menu menu, boolean isUpdate);
 
     /**
      * 根据条件查找菜单
@@ -37,6 +38,7 @@ public interface MenuService {
 
     /**
      * 删除一个菜单 （包括其下子菜单）
+     *
      * @param id 菜单id
      * @return
      */

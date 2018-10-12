@@ -46,28 +46,31 @@
             useGeneratedKeys="true"
             keyProperty="id">
 
-            INSERT   /* getInsert+@com.test.demo.modular.game.entity.Role */
-            INTO   t_role          /*  */
-                    (
-                        cName                   /* 角色名字 */
-                       ,cDesc                   /* 角色描述 */
-                       ,tDate                   /* 创建时间 */
-                       ,fState                  /* 状态 0：启用 1： 禁用 */
-                       ,tUpdateDate             /* 最后修改时间 */
-                    )
-            VALUES  (
-                        #{cname}   /* 角色名字 */
-                       ,#{cdesc}   /* 角色描述 */
-                       ,#{tdate}   /* 创建时间 */
-                       ,#{fstate}  /* 状态 0：启用 1： 禁用 */
-                       ,#{tupdatedate}   /* 最后修改时间 */
-                    )
-
+        INSERT   /* getInsert+@com.test.demo.modular.game.entity.Role */
+        INTO   t_role          /*  */
+            (
+                cName                   /* 角色名字 */
+               ,cDesc                   /* 角色描述 */
+               ,tDate                   /* 创建时间 */
+               ,fState                  /* 状态 0：启用 1： 禁用 */
+               ,tUpdateDate             /* 最后修改时间 */
+            )
+        VALUES
+            (
+                #{cname}   /* 角色名字 */
+               ,#{cdesc}   /* 角色描述 */
+               ,#{tdate}   /* 创建时间 */
+               ,#{fstate}  /* 状态 0：启用 1： 禁用 */
+               ,#{tupdatedate}   /* 最后修改时间 */
+            )
     </insert>
 
     <!-- 查询所有角色 -->
     <select id="selectRole" resultMap="BaseResultMap">
-        SELECT * FROM t_role
+        SELECT
+            *
+        FROM
+            t_role
     </select>
 
     <!-- 删除角色 -->
@@ -88,16 +91,18 @@
 
     <!-- 根据角色id查找已选菜单id(是父节点的不要) -->
     <select id="selectCheckMenu" resultType="string">
-        SELECT GROUP_CONCAT(menu_id separator ',') AS menuData
-        FROM t_role_menu
-        where role_id = #{id}
-        AND menu_id NOT IN(SELECT DISTINCT fParentid FROM t_menu)
+        SELECT
+            GROUP_CONCAT(menu_id separator ',') AS menuData
+        FROM
+            t_role_menu
+        WHERE
+            role_id = #{id} AND menu_id NOT IN(SELECT DISTINCT fParentid FROM t_menu)
     </select>
 
     <!-- 修改角色信息 -->
     <update id="updateRole">
         UPDATE
-        t_role
+            t_role
         <trim prefix="set" prefixOverrides=",">
             <if test='cname != null and cname != "" and cname != "null" and cname != "undefined" '>
                 ,cName =  #{cname}  /* 角色名字 */

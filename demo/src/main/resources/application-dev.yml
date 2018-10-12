@@ -8,63 +8,6 @@ spring:
     url: jdbc:mysql://localhost:3306/user_power?useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
     password: root
-    # 使用druid数据源
-#    type: com.alibaba.druid.pool.DruidDataSource
-#    filters: stat
-#    maxActive: 20
-#    initialSize: 1
-#    maxWait: 60000
-#    minIdle: 1
-#    timeBetweenEvictionRunsMillis: 60000
-#    minEvictableIdleTimeMillis: 300000
-#    validationQuery: select 'x'
-#    testWhileIdle: true
-#    testOnBorrow: false
-#    testOnReturn: false
-#    poolPreparedStatements: true
-#    maxOpenPreparedStatements: 20
-#  data:
-#    elasticsearch:
-#      cluster-name: elasticsearch
-#      cluster-nodes: 192.168.3.71:9300,192.168.3.73:9300
-#      repositories:
-#        enabled: true
-#  redis:
-#    host: 192.168.3.16
-#    password: Ji0qneD47Y2Hz7UA
-#    database: 2
-
-
-#    rabbitmq:
-#        host: 127.0.0.1
-#        port: 5672
-#        username: guest
-#        password: guest
-#        virtualHost: /
-#        publisher-confirms: false
-#        template:
-#          reply-timeout: 2000
-
-#  second-datasource:
-#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-#    url: jdbc:sqlserver://192.168.3.14;DatabaseName=ws_db
-#    username: wsdb
-#    password: wsloan123
-#    # 使用druid数据源
-#    type: com.alibaba.druid.pool.DruidDataSource
-#    filters: stat
-#    maxActive: 20
-#    initialSize: 1
-#    maxWait: 60000
-#    minIdle: 1
-#    timeBetweenEvictionRunsMillis: 60000
-#    minEvictableIdleTimeMillis: 300000
-#    validationQuery: select 'x'
-#    testWhileIdle: true
-#    testOnBorrow: false
-#    testOnReturn: false
-#    poolPreparedStatements: true
-#    maxOpenPreparedStatements: 20
 
 #上传文件大小设置
 multipart:
@@ -75,11 +18,11 @@ multipart:
 #JWT编码
 base64Security: 1abc$def2.TEZ
 
-#静态资源路径
+#windows静态资源路径
 web.upload-path: D:/javaapp/upload/
+#linux静态资源路径
 #web.upload-path: /home/wsd/
 web.upload-domain: http://127.0.0.1:8080/
-
 
 spring.mvc.static-path-pattern: /**
 #spring.resources.static-locations: classpath:/resources/,c lasspath:/templates/,classpath:/static/,file:${web.upload-path}
