@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/login")
@@ -29,8 +30,20 @@ public class LoginController {
      * @return
      */
     @PostMapping("/login")
-    public JsonResult insertUser(String userName, String password) {
+    public JsonResult Login(String userName, String password) {
         return loginService.login(userName, password);
     }
+
+    /**
+     * 退出接口
+     *
+     * @return
+     */
+    @PostMapping("/signOut")
+    public void signOut(HttpServletRequest httpServletRequest) {
+        //
+    }
+
+
 
 }

@@ -56,9 +56,9 @@ public class MenuController {
      * @return
      */
     @PostMapping("/insertMenu")
-    public JsonResult insertMenu(Menu menu, boolean isUpdate) {
-
-        return menuService.insertMenu(menu, isUpdate);
+    public JsonResult insertMenu(Menu menu, boolean isUpdate,HttpServletRequest httpServletRequest) {
+        String userId = String.valueOf(httpServletRequest.getAttribute(ATTUser.USER_TOKEN));
+        return menuService.insertMenu(menu, isUpdate,userId);
     }
 
     /**

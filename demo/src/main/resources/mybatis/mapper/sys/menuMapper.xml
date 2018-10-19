@@ -10,6 +10,8 @@
         <result column="menu_name" property="menuName" jdbcType="VARCHAR"/>
         <!-- 菜单路径 -->
         <result column="menu_url" property="menuUrl" jdbcType="VARCHAR"/>
+        <!-- 0：页面  1：按钮 -->
+        <result column="is_button" property="isButton" jdbcType="INTEGER"/>
         <!-- 父节点id -->
         <result column="fParentId" property="fparentid" jdbcType="INTEGER"/>
         <!-- 图标 -->
@@ -34,6 +36,11 @@
         <collection column="id" property="children" select="selectChildForRole">
             <id column="id" property="id" jdbcType="INTEGER"/>
             <result column="menu_name" property="label" jdbcType="VARCHAR"/>
+            <!-- 子类 (一对多用collection) -->
+            <collection column="id" property="button" select="selectChildForRole">
+                <id column="id" property="id" jdbcType="INTEGER"/>
+                <result column="menu_name" property="label" jdbcType="VARCHAR"/>
+            </collection>
         </collection>
     </resultMap>
 
@@ -113,7 +120,8 @@
             (
             menu_name                /* 菜单名字 */
             ,menu_url                /* 菜单路径 */
-            ,fParentId              /* 父节点id */
+            ,is_button               /* 0：页面  1：按钮 */
+            ,fParentId               /* 父节点id */
             ,clconpic                /* 图标 */
             ,fSort                   /* 排序 */
             ,fState                  /* 状态 0：启用 1：禁用 */
@@ -123,7 +131,8 @@
         VALUES  (
             #{menuName}              /* 菜单名字 */
             ,#{menuUrl}              /* 菜单路径 */
-            ,#{fparentid}           /* 父节点id */
+            ,#{isButton}             /* 0：页面  1：按钮 */
+            ,#{fparentid}            /* 父节点id */
             ,#{clconpic}             /* 图标 */
             ,#{fsort}                /* 排序 */
             ,#{fstate}               /* 状态 0：启用 1：禁用 */
@@ -162,7 +171,7 @@
             fParentId = 0 AND fState = 0
         ORDER BY id
     </select>
-
+    <!-- 根据父节点查找子类 -->
     <select id="selectChildForRole" resultType="map">
         SELECT
             id,menu_name AS label
@@ -172,7 +181,7 @@
             fParentId = #{id} AND fState = 0
         ORDER BY fSort
     </select>
-
+    <!-- 修改菜单信息 -->
     <update id="updateMenu">
         UPDATE
             t_menu

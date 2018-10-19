@@ -48,6 +48,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         Claims c = null;
         Integer userId = null;
         Integer roleId = null;
+        String userName = null;
         if (null == token || token.isEmpty()) {
             res.setCode(403);
             res.setMessage("token没有认证通过!原因为：客户端请求参数中无token信息");
@@ -62,6 +63,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                 JSONObject jsonObject = JwtHelper.getUserMessage(token, base64Security);
                 userId = jsonObject.getInteger("userId");
                 roleId = jsonObject.getInteger("roleId");
+                userName = jsonObject.getString("userName");
                 if (userId != null && userId != 0) {
                     request.setAttribute(ATTUser.USER_TOKEN, userId);
                 } else {

@@ -1,9 +1,5 @@
 package com.test.demo.modular.sys.mapper;
 
-
-import com.test.demo.modular.sys.entity.RoleMenu;
-import io.lettuce.core.dynamic.annotation.Param;
-
 import java.util.Map;
 
 /**

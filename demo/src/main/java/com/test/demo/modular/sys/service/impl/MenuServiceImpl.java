@@ -4,7 +4,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.test.demo.common.dto.Page;
 import com.test.demo.common.dto.PageUtils;
-import com.test.demo.core.auth.ATTUser;
 import com.test.demo.modular.sys.entity.Menu;
 import com.test.demo.modular.sys.mapper.MenuMapper;
 import com.test.demo.modular.sys.service.MenuService;
@@ -12,7 +11,6 @@ import com.test.demo.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +20,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Autowired
     private MenuMapper menuMapper;
+
 
     /**
      * 读取用户的菜单
@@ -40,15 +39,17 @@ public class MenuServiceImpl implements MenuService {
      *
      * @param menu 菜单实体类
      * @param isUpdate true: 修改菜单 false: 添加菜单
+     * @param userName
      * @return
      */
-    public JsonResult insertMenu(Menu menu, boolean isUpdate) {
+    public JsonResult insertMenu(Menu menu, boolean isUpdate, String userName) {
         if (isUpdate) {
             //修改
             menuMapper.updateMenu(menu);
             return new JsonResult(0, null, "修改菜单成功");
         } else {
             menu.setTdate(new Date());
+            menu.setCcreateuser(userName);
             menuMapper.getInsert(menu);
             return new JsonResult(0, null, "添加菜单成功");
         }

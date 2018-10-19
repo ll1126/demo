@@ -2,7 +2,8 @@ package com.test.demo.modular.sys.mapper;
 
 
 import com.test.demo.modular.sys.entity.ManagerRole;
-import io.lettuce.core.dynamic.annotation.Param;
+import org.apache.ibatis.annotations.Param;
+
 
 import java.util.Map;
 

@@ -120,8 +120,7 @@ public class ExcelUtil {
         fileName = new String(filePath.getBytes(), "ISO-8859-1");
         response.addHeader("Content-Disposition", "filename=" + fileName);
         OutputStream out = response.getOutputStream();
-        ExcelWriterFactroy writer = new ExcelWriterFactroy(out, ExcelTypeEnum.XLSX
-        );
+        ExcelWriterFactroy writer = new ExcelWriterFactroy(out, ExcelTypeEnum.XLSX);
         try {
             Sheet sheet = new Sheet(1, 0, object.getClass());
             sheet.setSheetName(sheetName);

@@ -10,13 +10,13 @@ import java.math.BigDecimal;
 public class BigDecimaUtil {
     /**
      * 精确的加法运算
-     * <p>
+     *
      * 小数位默认保留2位，保留方式是四舍五入，如需其他方式请自行传值
      *
      * @param num1         加数
      * @param num2         被加数
      * @param scale        保留小数位
-     * @param roundingMode 保留小数方式
+     * @param roundingMode 保留小数方式 例如:BigDecimal.ROUND_HALF_UP
      * @return
      */
     public static double add(Object num1, Object num2, Integer scale, Integer roundingMode) {
@@ -31,13 +31,13 @@ public class BigDecimaUtil {
 
     /**
      * 精确的减法运算
-     * <p>
+     *
      * 小数位默认保留2位，保留方式是四舍五入，如需其他方式请自行传值
      *
      * @param num1         减数
      * @param num2         被减数
      * @param scale        保留小数位
-     * @param roundingMode 保留小数方式
+     * @param roundingMode 保留小数方式 例如:BigDecimal.ROUND_HALF_UP
      * @return
      */
     public static double sub(Object num1, Object num2, Integer scale, Integer roundingMode) {
@@ -52,13 +52,13 @@ public class BigDecimaUtil {
 
     /**
      * 精确的乘法运算
-     * <p>
+     *
      * 小数位默认保留2位，保留方式是四舍五入，如需其他方式请自行传值
      *
      * @param num1         乘数
      * @param num2         被乘数
      * @param scale        保留小数位
-     * @param roundingMode 保留小数方式
+     * @param roundingMode 保留小数方式 例如:BigDecimal.ROUND_HALF_UP
      * @return
      */
     public static double mul(Object num1, Object num2, Integer scale, Integer roundingMode) {
@@ -73,13 +73,13 @@ public class BigDecimaUtil {
 
     /**
      * 精确的除法运算
-     * <p>
+     *
      * 小数位默认保留2位，保留方式是四舍五入，如需其他方式请自行传值
      *
-     * @param num1         乘数
-     * @param num2         被乘数
+     * @param num1         被除数
+     * @param num2         除数
      * @param scale        保留小数位
-     * @param roundingMode 保留小数方式
+     * @param roundingMode 保留小数方式 例如:BigDecimal.ROUND_HALF_UP
      * @return
      */
     public static double div(Object num1, Object num2, Integer scale, Integer roundingMode) {
@@ -103,7 +103,7 @@ public class BigDecimaUtil {
         if (RegexUtil.isNumeric(num1.toString()) && RegexUtil.isNumeric(num2.toString())) {
             return true;
         } else {
-            return true;
+            return false;
         }
 
     }
@@ -127,12 +127,15 @@ public class BigDecimaUtil {
     }
 
     public static void main(String[] args) {
-        String a = "0";
-        String b = "1";
-        System.out.println(add(a, b, 1, null));
-        System.out.println(sub(a, b, 2, null));
-        System.out.println(mul(a, b, 5, null));
-        System.out.println(div(a, b, 4, null));
+//        String a = "0";
+//        String b = "1";
+//        System.out.println(add(a, b, 1, null));
+//        System.out.println(sub(a, b, 2, null));
+//        System.out.println(mul(a, b, 5, null));
+//        System.out.println(div(a, b, 4, null));
+        System.out.println(numVerify("a",2));
+
+
     }
 
 

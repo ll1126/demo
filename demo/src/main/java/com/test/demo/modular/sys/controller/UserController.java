@@ -9,8 +9,7 @@ import com.test.demo.modular.sys.service.MenuService;
 import com.test.demo.modular.sys.service.userService;
 import com.test.demo.util.JsonResult;
 import com.test.demo.util.easyExcel.ExcelUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
-@Api(description = "用户接口", value = "")
+@Api(description = "用户接口", value = "")  //类注解
 public class UserController {
 
     @Resource
@@ -40,6 +39,7 @@ public class UserController {
      * @param managerUserCode 查询条件
      * @return
      */
+    @ApiOperation(value = "查询所有用户（分页）") //方法名注解
     @GetMapping("/selUserList")
     public JsonResult selUserList(Integer pageNum, Integer pageSize, ManagerUserCode managerUserCode) {
         return userService.selUserList(pageNum, pageSize, managerUserCode);

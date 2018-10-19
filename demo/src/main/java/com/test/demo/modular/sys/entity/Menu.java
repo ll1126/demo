@@ -39,6 +39,10 @@ public class Menu implements java.io.Serializable {
      **/
     private String menuUrl;
     /**
+     * 0：页面  1：按钮
+     **/
+    private Integer isButton;
+    /**
      * 父节点id
      **/
     private Integer fparentid;
@@ -74,10 +78,11 @@ public class Menu implements java.io.Serializable {
     public Menu() {
     }
 
-    public Menu(Integer id, String menuName, String menuUrl, Integer fparentid, String clconpic, Integer fsort, Integer fstate, String ccreateuser, Date tdate, Integer hasChild, List<Map> child) {
+    public Menu(Integer id, String menuName, String menuUrl, Integer isButton, Integer fparentid, String clconpic, Integer fsort, Integer fstate, String ccreateuser, Date tdate, Integer hasChild, List<Map> child) {
         this.id = id;
         this.menuName = menuName;
         this.menuUrl = menuUrl;
+        this.isButton = isButton;
         this.fparentid = fparentid;
         this.clconpic = clconpic;
         this.fsort = fsort;

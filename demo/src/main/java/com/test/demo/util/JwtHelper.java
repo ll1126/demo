@@ -76,14 +76,10 @@ public class JwtHelper {
         JwtBuilder builder = Jwts.builder().setHeaderParam("typ", "JWT")
                 .claim("roleId", roleId)
                 .claim("userId", userId)
-                //    .setIssuer(issuer)
-//                .setSubject()
-                //    .setAudience(audience)
                 .signWith(signatureAlgorithm, signingKey);
         //添加Token过期时间
         if (TTLMillis >= 0) {
             long expMillis = nowMillis + TTLMillis;
-            System.out.println(expMillis);
             Date exp = new Date(expMillis);
             builder.setExpiration(exp).setNotBefore(now);
         }
@@ -102,19 +98,14 @@ public class JwtHelper {
         JSONObject json = new JSONObject();
         json.put("userId", userId);
         long nowMillis = System.currentTimeMillis();
-//        Date now = new Date(nowMillis);
         if (TTLMillis >= 0) {
             long expMillis = nowMillis + TTLMillis;
-//            Date exp = new Date(expMillis);
             json.put("exp", expMillis);
             json.put("expHour", expHour);
         }
 
         String base64Header = Base64.encodeBase64URLSafeString(header.getBytes());
-//        System.out.println(new String (Base64.decodeBase64(base64Header.getBytes())));
-        System.out.println(json.toString());
         String base64Claim = Base64.encodeBase64URLSafeString(json.toString().getBytes());
-//        System.out.println(new String (Base64.decodeBase64(base64Claim.getBytes())));
         String signature = null;
         try {
             signature = Hmacsha256(secret, base64Header + "." + base64Claim);
@@ -131,16 +122,12 @@ public class JwtHelper {
     public static JSONObject parseZdyJWT(String jsonWebToken, String secret) {
         try {
             String[] jwtStr = jsonWebToken.split("\\.");
-//            String base64Header = new String(Base64.decodeBase64(jwtStr[0].toString().getBytes()));
-//            String base64Claim = new String(Base64.decodeBase64(jwtStr[1].toString().getBytes()));
             String signature = Hmacsha256(secret, jwtStr[0] + "." + jwtStr[1]);
-//            System.out.println(base64Claim);
             if (!signature.equals(jwtStr[2].toString())) {
                 return null;
             }
             String base64Claim = new String(Base64.decodeBase64(jwtStr[1].toString().getBytes()));
             JSONObject claim = JSONObject.parseObject(base64Claim);
-            System.out.println(claim.toString());
             long exp = claim.getLong("exp");
             long nowMillis = System.currentTimeMillis();
             if (nowMillis >= exp) {

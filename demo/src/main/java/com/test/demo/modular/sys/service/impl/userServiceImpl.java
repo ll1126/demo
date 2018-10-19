@@ -66,6 +66,7 @@ public class userServiceImpl implements userService {
                 return "姓名重复，请加个标识区分";
             }
             //新增一个用户
+
             managerUser.setCreateTime(new Date());
             //默认密码 123456
             managerUser.setManagerPassword(MD5Util.getMD5("123456"));

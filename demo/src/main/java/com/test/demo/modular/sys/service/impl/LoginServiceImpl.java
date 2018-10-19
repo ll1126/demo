@@ -1,29 +1,21 @@
 package com.test.demo.modular.sys.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.test.demo.common.dto.Page;
-import com.test.demo.common.dto.PageUtils;
 import com.test.demo.core.auth.ATTUser;
-import com.test.demo.modular.sys.entity.ManagerRole;
 import com.test.demo.modular.sys.entity.ManagerUser;
-import com.test.demo.modular.sys.entity.code.ManagerUserCode;
 import com.test.demo.modular.sys.mapper.ManagerRoleMapper;
 import com.test.demo.modular.sys.mapper.ManagerUserMapper;
 import com.test.demo.modular.sys.service.LoginService;
-import com.test.demo.modular.sys.service.userService;
 import com.test.demo.util.DateUtil;
 import com.test.demo.util.JsonResult;
 import com.test.demo.util.JwtHelper;
 import com.test.demo.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class LoginServiceImpl implements LoginService {

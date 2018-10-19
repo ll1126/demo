@@ -1,7 +1,7 @@
 package com.test.demo.modular.sys.mapper;
 
 import com.test.demo.modular.sys.entity.Menu;
-import io.lettuce.core.dynamic.annotation.Param;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;

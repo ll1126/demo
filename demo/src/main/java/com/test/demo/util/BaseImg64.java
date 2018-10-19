@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
  * Base64
@@ -40,4 +42,16 @@ public class BaseImg64 {
         // 返回Base64编码过再URLEncode的字节数组字符串
         return URLEncoder.encode(encoder.encode(data));
     }
+
+    public static void main(String[] args) {
+        String text = "base64 finally in Java 8!";
+        String encoded = Base64.getEncoder().encodeToString(text.getBytes(StandardCharsets.UTF_8 ));
+        System.out.println( encoded );
+        BASE64Encoder encoder = new BASE64Encoder();
+        System.out.println(encoder.encode(text.getBytes(StandardCharsets.UTF_8 )));
+
+
+    }
+
+
 }

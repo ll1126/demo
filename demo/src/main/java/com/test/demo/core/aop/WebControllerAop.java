@@ -3,11 +3,11 @@ package com.test.demo.core.aop;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
+import com.sun.xml.internal.ws.spi.db.DatabindingException;
 import com.test.demo.core.auth.ATTUser;
 import com.test.demo.util.JsonResult;
 import com.test.demo.util.JwtHelper;
 import io.jsonwebtoken.Claims;
-import io.netty.handler.codec.json.JsonObjectDecoder;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -51,7 +51,7 @@ public class WebControllerAop {
      * @param joinPoint 可以获得通知的签名信息，如目标方法名、目标方法参数信息等
      *                  HttpServletRequest  来获取请求信息，Session信息
      */
-    @Before("executeService()")
+//    @Before("executeService()")
     public void doBeforeAdvice(JoinPoint joinPoint) {
         System.out.println("我是前置通知!!!");
         //获取目标方法的参数信息
@@ -97,13 +97,13 @@ public class WebControllerAop {
      * @param joinPoint
      * @param keys
      */
-    @AfterReturning(value = "execution(* com.test.demo.modular.sys.controller..*.*(..))", returning = "keys")
+//    @AfterReturning(value = "execution(* com.test.demo.modular.sys.controller..*.*(..))", returning = "keys")
     public void doAfterReturningAdvice1(JoinPoint joinPoint, Object keys) {
 
         System.out.println("第一个后置返回通知的返回值：" + keys);
     }
 
-    @AfterReturning(value = "execution(* com.test.demo.modular.sys.controller..*.*(..))", returning = "keys", argNames = "keys")
+//    @AfterReturning(value = "execution(* com.test.demo.modular.sys.controller..*.*(..))", returning = "keys", argNames = "keys")
     public void doAfterReturningAdvice2(String keys) {
 
         System.out.println("第二个后置返回通知的返回值：" + keys);
@@ -118,7 +118,7 @@ public class WebControllerAop {
      * @param joinPoint
      * @param exception
      */
-    @AfterThrowing(value = "executeService()", throwing = "exception")
+//    @AfterThrowing(value = "executeService()", throwing = "exception")
     public void doAfterThrowingAdvice(JoinPoint joinPoint, Throwable exception) {
         //目标方法名：
         System.out.println(joinPoint.getSignature().getName());
@@ -171,7 +171,9 @@ public class WebControllerAop {
         }
 
         //执行调用的方法
+        long startTime = new Date().getTime();
         Object proceed = proceedingJoinPoint.proceed();
+        System.out.println("请求：【" + request.getRequestURI() + "】用时: " + (new Date().getTime() - startTime));
         return proceed;
 
     }
@@ -188,6 +190,7 @@ public class WebControllerAop {
         Claims c = null;
         Integer userId = null;
         Integer roleId = null;
+        String userName = null;
         boolean isFilter = false;
         if (null == token || token.isEmpty()) {
             res.setCode(403);

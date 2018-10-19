@@ -3,7 +3,6 @@ package com.test.demo.modular.sys.service;
 import com.test.demo.modular.sys.entity.Menu;
 import com.test.demo.util.JsonResult;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -22,9 +21,10 @@ public interface MenuService {
      *
      * @param menu 菜单实体类
      * @param isUpdate true：修改菜单  false：添加菜单
+     * @param userName
      * @return
      */
-    JsonResult insertMenu(Menu menu, boolean isUpdate);
+    JsonResult insertMenu(Menu menu, boolean isUpdate, String userName);
 
     /**
      * 根据条件查找菜单
