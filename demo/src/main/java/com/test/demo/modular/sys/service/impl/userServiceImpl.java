@@ -2,6 +2,7 @@ package com.test.demo.modular.sys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.StringUtil;
 import com.test.demo.common.dto.Page;
 import com.test.demo.common.dto.PageUtils;
 import com.test.demo.modular.sys.entity.ManagerRole;
@@ -13,6 +14,7 @@ import com.test.demo.modular.sys.service.userService;
 import com.test.demo.util.JsonResult;
 import com.test.demo.util.MD5Util;
 import com.test.demo.util.easyExcel.ExcelUtil;
+import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

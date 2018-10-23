@@ -16,7 +16,6 @@ public class RegexUtil {
      *
      * @param str
      * @return
-     * @author jiqinlin
      */
     public final static boolean isUrl(String str) {
         return match(str, "^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$");
@@ -27,7 +26,6 @@ public class RegexUtil {
      *
      * @param str
      * @return
-     * @author jiqinlin
      */
     public final static boolean isPwd(String str) {
         return match(str, "^[a-zA-Z]\\w{6,12}$");
@@ -38,7 +36,6 @@ public class RegexUtil {
      *
      * @param str
      * @return
-     * @author jiqinlin
      */
     public final static boolean isEmail(String str) {
         return match(str, "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
@@ -49,7 +46,6 @@ public class RegexUtil {
      *
      * @param str
      * @return
-     * @author jiqinlin
      */
     public final static boolean isInteger(String str) {
         return match(str, "^[+]?\\d+$");
@@ -60,7 +56,6 @@ public class RegexUtil {
      *
      * @param str
      * @return
-     * @author jiqinlin
      */
     public final static boolean isFloat(String str) {
         return match(str, "^[-\\+]?\\d+(\\.\\d+)?$");
@@ -71,7 +66,6 @@ public class RegexUtil {
      *
      * @param str
      * @return
-     * @author jiqinlin
      */
     public final static boolean isNumeric(String str) {
         if (isFloat(str) || isInteger(str)) return true;
@@ -83,7 +77,6 @@ public class RegexUtil {
      *
      * @param text
      * @return
-     * @author jiqinlin
      */
     public final static boolean isTel(String text) {
         if (isMobile(text) || isPhone(text)) return true;
@@ -95,7 +88,6 @@ public class RegexUtil {
      *
      * @param text
      * @return
-     * @author jiqinlin
      */
     public final static boolean isPhone(String text) {
         return match(text, "^(\\d{3,4}-?)?\\d{7,9}$");
@@ -106,7 +98,7 @@ public class RegexUtil {
      *
      * @param text
      * @return
-     * @author jiqinlin
+
      */
     public final static boolean isMobile(String text) {
         if (text.length() != 11) return false;
@@ -187,7 +179,6 @@ public class RegexUtil {
      * @param text 待匹配的文本
      * @param reg  正则表达式
      * @return
-     * @author jiqinlin
      */
     private final static boolean match(String text, String reg) {
         if (StringUtils.isBlank(text) || StringUtils.isBlank(reg))

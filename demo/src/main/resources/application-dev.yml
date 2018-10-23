@@ -79,5 +79,5 @@ web.upload-path: D:/javaapp/upload/
 web.upload-domain: http://127.0.0.1:8080/
 
 # 日志
-#logging:
-#  config: classpath:/mybatis/config/logback-core.xml
+logging:
+  config: classpath:mybatis/config/logback-core.xml
