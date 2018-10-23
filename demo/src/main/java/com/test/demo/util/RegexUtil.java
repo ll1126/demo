@@ -1,14 +1,21 @@
 package com.test.demo.util;
 
 import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.regex.Pattern;
 
 public class RegexUtil {
 
+    private static final Logger logger = LoggerFactory.getLogger(RegexUtil.class);
+
     public static void main(String[] args) {
 //        System.out.println(isNumeric("-123"));
-        System.out.println(isIDNumber("330303199511261214"));
+//        System.out.println(isIDNumber("330303199511261213"));
+
+        System.out.println(isUrl("https://www.baidu.com"));
+
     }
 
     /**
@@ -18,7 +25,7 @@ public class RegexUtil {
      * @return
      */
     public final static boolean isUrl(String str) {
-        return match(str, "^http://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$");
+        return match(str, "^(http|ftp|https)://([\\w-]+\\.)+[\\w-]+(/[\\w-./?%&=]*)?$");
     }
 
     /**
@@ -158,13 +165,13 @@ public class RegexUtil {
                     if (idCardY[idCardMod].toUpperCase().equals(String.valueOf(idCardLast).toUpperCase())) {
                         return true;
                     } else {
-                        System.out.println("身份证最后一位:" + String.valueOf(idCardLast).toUpperCase() +
+                        logger.error("身份证最后一位:" + String.valueOf(idCardLast).toUpperCase() +
                                 "错误,正确的应该是:" + idCardY[idCardMod].toUpperCase());
                         return false;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.out.println("异常:" + IDNumber);
+                    logger.error("异常:" + IDNumber);
                     return false;
                 }
             }
