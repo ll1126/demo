@@ -2,7 +2,6 @@ package com.test.demo.modular.sys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.StringUtil;
 import com.test.demo.common.dto.Page;
 import com.test.demo.common.dto.PageUtils;
 import com.test.demo.modular.sys.entity.ManagerRole;
@@ -14,15 +13,16 @@ import com.test.demo.modular.sys.service.userService;
 import com.test.demo.util.JsonResult;
 import com.test.demo.util.MD5Util;
 import com.test.demo.util.easyExcel.ExcelUtil;
-import net.logstash.logback.encoder.org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.*;
 
 @Service
 public class userServiceImpl implements userService {
@@ -156,4 +156,31 @@ public class userServiceImpl implements userService {
         return null;
 
     }
+
+    @Override
+    public String asyncTest() throws ExecutionException, InterruptedException {
+        // 建立一个线程池
+        ExecutorService exc = Executors.newFixedThreadPool(3);
+        // 存放返回的结果
+        List<Future<String>> futures = new ArrayList<Future<String>>();
+        Callable task1 = new Task1("token");
+        Future<String> future = exc.submit(task1);
+        futures.add(future);
+        Callable task2 = new Task2();
+        Future<String> future2 = exc.submit(task2);
+        futures.add(future2);
+        System.out.println("等待结果：");
+        for(Future<String> future3: futures){
+            System.out.println("结果-----"+future3.get());
+        }
+        System.out.println("都结束啦");
+        exc.shutdown();
+        return null;
+    }
+
+
+
+
+
+
 }

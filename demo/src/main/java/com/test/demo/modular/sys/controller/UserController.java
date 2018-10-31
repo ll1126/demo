@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/user")
@@ -105,6 +106,17 @@ public class UserController {
     @GetMapping("/api/downUser")
     public void downUser(HttpServletResponse response) throws IOException {
         userService.downUser(response);
+    }
+
+    /**
+     * 测试
+     *
+     * @param response
+     * @throws IOException
+     */
+    @GetMapping("/api/async")
+    public void async(HttpServletResponse response) throws IOException, ExecutionException, InterruptedException {
+        userService.asyncTest();
     }
 
 

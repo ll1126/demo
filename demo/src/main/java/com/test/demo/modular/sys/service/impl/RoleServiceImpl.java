@@ -12,6 +12,7 @@ import com.test.demo.modular.sys.mapper.RoleMenuMapper;
 import com.test.demo.modular.sys.service.RoleService;
 import com.test.demo.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -5,6 +5,7 @@ import com.test.demo.modular.sys.entity.code.ManagerUserCode;
 import com.test.demo.util.JsonResult;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.concurrent.ExecutionException;
 
 
 public interface userService {
@@ -52,4 +53,7 @@ public interface userService {
      * @return
      */
     String updatePwd(String userId, String oldPwd, String firstNewPwd, String secondNewPwd);
+
+    String asyncTest() throws ExecutionException, InterruptedException;
+
 }
