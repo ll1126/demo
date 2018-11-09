@@ -153,11 +153,11 @@
             parameterType="com.test.demo.modular.sys.entity.code.ManagerUserCode"
             resultMap="BaseResultMap">
         SELECT
-            tmu.*,tr.cName,tmr.roleId
+            tb.*,tr.cName,tmr.roleId
         FROM
-            t_manager_user tmu
+            t_manager_user tb
         LEFT JOIN
-            t_manager_role tmr on tmu.id = tmr.managerId
+            t_manager_role tmr on tb.id = tmr.managerId
         LEFT JOIN
             t_role tr on tmr.roleId = tr.id
         WHERE 1 = 1

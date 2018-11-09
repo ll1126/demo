@@ -182,7 +182,7 @@
             <if test='fsort != null'>
                 ,fSort =  #{fsort}  /* 排序 */
             </if>
-            <if test='fstate != null and fstate != "" and fstate != "null" and fstate != "undefined" '>
+            <if test='fstate != null '>
                 ,fState =  #{fstate}  /* 状态 0：启用 1：禁用 */
             </if>
         </trim>

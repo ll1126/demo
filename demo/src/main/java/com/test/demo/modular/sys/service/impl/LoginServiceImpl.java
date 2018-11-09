@@ -50,6 +50,9 @@ public class LoginServiceImpl implements LoginService {
         if (!MD5Util.getMD5(password).equals(managerUser.getManagerPassword())) {
             return new JsonResult(1, null, "密码错误");
         }
+        if (managerUser.getState() == 1) {
+            return new JsonResult(1, null, "该账号已经禁用，请联系管理员");
+        }
         //该用户对应的角色id
         Integer roleId = managerRoleMapper.selRoleByUserId(managerUser.getId());
         JSONObject tokenJson = new JSONObject();
