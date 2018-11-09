@@ -26,24 +26,6 @@
         <result column="tDate" property="tdate" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <!-- 添加角色时用的 -->
-    <resultMap id="RoleForAllMenu" type="map">
-        <!--  -->
-        <result column="id" property="id" jdbcType="INTEGER"/>
-        <!-- 菜单名字 -->
-        <result column="menu_name" property="label" jdbcType="VARCHAR"/>
-        <!-- 子类 (一对多用collection) -->
-        <collection column="id" property="children" select="selectChildForRole">
-            <id column="id" property="id" jdbcType="INTEGER"/>
-            <result column="menu_name" property="label" jdbcType="VARCHAR"/>
-            <!-- 子类 (一对多用collection) -->
-            <collection column="id" property="button" select="selectChildForRole">
-                <id column="id" property="id" jdbcType="INTEGER"/>
-                <result column="menu_name" property="label" jdbcType="VARCHAR"/>
-            </collection>
-        </collection>
-    </resultMap>
-
     <!-- 左侧菜单 -->
     <resultMap id="roleMenu" type="map">
         <!--  -->
@@ -150,7 +132,7 @@
             t_menu
         WHERE
             fParentId = #{parentId}
-        ORDER BY id
+        ORDER BY fSort
     </select>
 
     <!-- 删除一个菜单及其子菜单 -->
@@ -161,15 +143,14 @@
             id = #{id} OR fParentId = #{id}
     </delete>
 
-    <!-- 查询所有菜单节点的id和名字和子类（添加角色时勾选用） -->
-    <select id="selMenuForRole" resultMap="RoleForAllMenu">
+    <!-- 查询所有菜单节点（添加角色时勾选用） -->
+    <select id="selMenuForRole" resultMap="BaseResultMap">
         SELECT
-            id,menu_name
+            *
         FROM
             t_menu
         WHERE
-            fParentId = 0 AND fState = 0
-        ORDER BY id
+            fState = 0
     </select>
     <!-- 根据父节点查找子类 -->
     <select id="selectChildForRole" resultType="map">

@@ -28,28 +28,28 @@ public class StreamTest {
 
     public static void main(String[] args) {
         //循环输出
-        list.forEach(u -> System.out.println(u));
+//        list.forEach(u -> System.out.println(u));
 
         // 复杂操作可以加个 {}
-        list.forEach(u -> {
-            System.out.println("第一次"+u);
-            System.out.println("第二次"+u);
-        });
+//        list.forEach(u -> {
+//            System.out.println("第一次"+u);
+//            System.out.println("第二次"+u);
+//        });
 
         //filter（筛选条件）
-        list.stream().filter(u -> u.getId()>5).forEach(u -> System.out.println(u));
+//        list.stream().filter(u -> u.getId()>5).forEach(u -> System.out.println(u));
 
         //limit(2) 取前两条
-        list.stream().filter(u -> u.getId()>5).limit(2).forEach(u -> System.out.println(u));
+//        list.stream().filter(u -> u.getId()>5).limit(2).forEach(u -> System.out.println(u));
 
         //skip(2) 跳过前两条
-        list.stream().filter(u -> u.getId()>5).skip(2).forEach(u -> System.out.println(u));
+//        list.stream().filter(u -> u.getId()>5).skip(2).forEach(u -> System.out.println(u));
 
         //map（） 方法
         list.stream().map(User::getId).collect(Collectors.toList()).forEach(System.out::println);
 
         //某一属性去重
-        list.stream().filter(distinctByKey(u -> u.getUsername())).collect(Collectors.toList()).forEach(System.out::println);
+//        list.stream().filter(distinctByKey(u -> u.getUsername())).collect(Collectors.toList()).forEach(System.out::println);
 
 
     }

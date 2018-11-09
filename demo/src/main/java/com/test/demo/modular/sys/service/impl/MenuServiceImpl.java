@@ -11,9 +11,8 @@ import com.test.demo.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MenuServiceImpl implements MenuService {
@@ -89,6 +88,31 @@ public class MenuServiceImpl implements MenuService {
      * 新增一个角色时查询所有菜单
      */
     public List<Map> selectMenuForRole() {
-        return menuMapper.selMenuForRole();
+        List<Menu> menus = menuMapper.selMenuForRole();
+        List<Map> list = menus.stream().filter(menu -> menu.getFparentid() == 0).map(temp -> {
+            Map map = new HashMap();
+            map.put("id",temp.getId()); //一级菜单id
+            map.put("label",temp.getMenuName()); //一级菜单名字
+            // 一级菜单的子类 （二级菜单）  --开始
+            List<Map> two_list = menus.stream().filter(two_menu -> two_menu.getFparentid() == temp.getId()).map(two_temp -> {
+                Map two_map = new HashMap();
+                two_map.put("id",two_temp.getId()); //一级菜单id
+                two_map.put("label",two_temp.getMenuName()); //一级菜单名字
+                // 二级菜单的子类 （按钮）  --开始
+                List<Map> button_list = menus.stream().filter(button_menu -> button_menu.getFparentid() == two_temp.getId()).map(button_temp -> {
+                    Map button_map = new HashMap();
+                    button_map.put("id",button_temp.getId()); //一级菜单id
+                    button_map.put("label",button_temp.getMenuName()); //一级菜单名字
+                    return button_map;
+                }).collect(Collectors.toList());
+                // 二级菜单的子类 （按钮）  --结束
+                two_map.put("children",button_list);
+                return two_map;
+            }).collect(Collectors.toList());
+            // 一级菜单的子类 （二级菜单）  --结束
+            map.put("children",two_list);  //
+            return map;
+        }).collect(Collectors.toList());
+        return list;
     }
 }

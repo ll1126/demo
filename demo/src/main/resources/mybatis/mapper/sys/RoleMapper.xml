@@ -71,6 +71,7 @@
             *
         FROM
             t_role
+        order by id
     </select>
 
     <!-- 删除角色 -->
@@ -94,9 +95,10 @@
         SELECT
             GROUP_CONCAT(menu_id separator ',') AS menuData
         FROM
-            t_role_menu
+            t_role_menu trm
+        LEFT JOIN t_menu  tm ON trm.menu_id = tm.id
         WHERE
-            role_id = #{id} AND menu_id NOT IN(SELECT DISTINCT fParentid FROM t_menu)
+            trm.role_id = #{id} AND tm.is_button = 1
     </select>
 
     <!-- 修改角色信息 -->

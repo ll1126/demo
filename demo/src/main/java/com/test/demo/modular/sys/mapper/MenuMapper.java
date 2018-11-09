@@ -43,7 +43,7 @@ public interface MenuMapper {
      *
      * @return
      */
-    List<Map> selMenuForRole();
+    List<Menu> selMenuForRole();
 
     /**
      * 根据ID 修改菜单
