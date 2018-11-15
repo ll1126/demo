@@ -12,10 +12,8 @@ import com.test.demo.modular.sys.mapper.RoleMenuMapper;
 import com.test.demo.modular.sys.service.RoleService;
 import com.test.demo.util.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,18 +33,17 @@ public class RoleServiceImpl implements RoleService {
      *
      * @param role      角色实体类
      * @param checkMenu 选中的菜单id 字符串
-     * @param isUpdate  0：新增  1：修改
+     * @param isUpdate  true：修改  false：新增
      * @return
      */
     @Transactional
-    public String addRole(Role role, String checkMenu, Integer isUpdate) {
-        if (isUpdate == 0) {
+    public String addRole(Role role, String checkMenu, boolean isUpdate) {
+        if (!isUpdate) {
             //添加角色信息
-
             role.setTdate(new Date());
             role.setTupdatedate(new Date());
             roleMapper.insertRole(role);
-        } else if (isUpdate == 1) {
+        } else if (isUpdate) {
             //修改
             Integer count = roleMapper.updateRole(role);
             if (count == 0) {

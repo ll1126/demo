@@ -24,10 +24,10 @@ public interface userService {
      *
      * @param managerUser 用户实体类
      * @param roleId      角色id
-     * @param isUpdate    0: 新增  1：修改
+     * @param isUpdate    true： 修改 false： 新增
      * @return
      */
-    String insertUser(ManagerUser managerUser, Integer roleId, Integer isUpdate);
+    String insertUser(ManagerUser managerUser, Integer roleId, boolean isUpdate);
 
     /**
      * 导出所有用户
@@ -46,13 +46,13 @@ public interface userService {
     /**
      * 修改密码
      *
-     * @param userId       用户id
+     * @param user 当前登录的用户
      * @param oldPwd       旧密码
      * @param firstNewPwd  第一次新密码
      * @param secondNewPwd 第二次新密码
      * @return
      */
-    String updatePwd(String userId, String oldPwd, String firstNewPwd, String secondNewPwd);
+    String updatePwd(ManagerUser user, String oldPwd, String firstNewPwd, String secondNewPwd);
 
     String asyncTest() throws ExecutionException, InterruptedException;
 

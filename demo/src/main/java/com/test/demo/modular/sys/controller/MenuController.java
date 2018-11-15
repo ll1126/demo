@@ -1,6 +1,6 @@
 package com.test.demo.modular.sys.controller;
 
-import com.test.demo.core.auth.ATTUser;
+import com.test.demo.modular.sys.entity.ManagerUser;
 import com.test.demo.modular.sys.entity.Menu;
 import com.test.demo.modular.sys.service.MenuService;
 import com.test.demo.util.JsonResult;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -29,10 +28,8 @@ public class MenuController {
      * @return
      */
     @GetMapping("/selMenu")
-    public JsonResult selMenu(HttpServletRequest request) {
-        //从token里拿userid
-        String roleId = String.valueOf(request.getAttribute(ATTUser.ROLE_TOKEN));
-        return menuService.selMenu(roleId);
+    public JsonResult selMenu(ManagerUser user) {
+        return menuService.selMenu(user);
     }
 
     /**
@@ -56,9 +53,8 @@ public class MenuController {
      * @return
      */
     @PostMapping("/insertMenu")
-    public JsonResult insertMenu(Menu menu, boolean isUpdate,HttpServletRequest httpServletRequest) {
-        String userId = String.valueOf(httpServletRequest.getAttribute(ATTUser.USER_TOKEN));
-        return menuService.insertMenu(menu, isUpdate,userId);
+    public JsonResult insertMenu(Menu menu, boolean isUpdate,ManagerUser user) {
+        return menuService.insertMenu(menu, isUpdate,user);
     }
 
     /**

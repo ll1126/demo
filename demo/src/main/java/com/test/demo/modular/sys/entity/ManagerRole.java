@@ -1,8 +1,5 @@
 package com.test.demo.modular.sys.entity;
 
-
-
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

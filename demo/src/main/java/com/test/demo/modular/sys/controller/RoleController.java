@@ -27,16 +27,16 @@ public class RoleController {
      *
      * @param role      角色实体类
      * @param checkMenu 选中的菜单id 字符串
-     * @param isUpdate  0：新增  1：修改
+     * @param isUpdate  true：修改  false：新增
      * @return
      */
     @PostMapping("/insertRole")
-    public JsonResult insertRole(Role role, String checkMenu, Integer isUpdate) {
+    public JsonResult insertRole(Role role, String checkMenu, boolean isUpdate) {
         String res = roleService.addRole(role, checkMenu, isUpdate);
         if (res != null) {
             return new JsonResult(1, null, res);
         }
-        String mes = isUpdate == 0 ? "添加角色成功了耶( •̀ ω •́ )y" : "修改角色成功了耶( •̀ ω •́ )y";
+        String mes = isUpdate ? "修改角色成功了耶( •̀ ω •́ )y" : "添加角色成功了耶( •̀ ω •́ )y";
         return new JsonResult(0, null, mes);
     }
 

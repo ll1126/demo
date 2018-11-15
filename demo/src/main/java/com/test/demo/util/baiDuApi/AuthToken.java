@@ -2,19 +2,10 @@ package com.test.demo.util.baiDuApi;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.test.demo.core.HttpUtilException;
 import com.test.demo.core.constant.Const;
 import com.test.demo.util.HttpUtil;
-import springfox.documentation.spring.web.json.Json;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 获取token类

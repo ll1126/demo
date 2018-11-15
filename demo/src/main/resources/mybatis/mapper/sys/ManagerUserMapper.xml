@@ -137,12 +137,10 @@
     </insert>
 
     <delete id="getDeleteById"
-            parameterType="java.lang.Integer"
-    >
-
-        DELETE   /* getDelete+@@com.test.demo.modular.game.entity.ManagerUser  */
+            parameterType="java.lang.Integer">
+        DELETE
         FROM
-            t_manager_user                        /*  */
+            t_manager_user
         WHERE
             id =  #{_parameter} /* 主键   */
 
@@ -182,9 +180,9 @@
         SELECT
             *
         FROM
-            t_manager_user
+            t_manager_user tmu LEFT JOIN t_manager_role tmr on tmu.id = tmr.managerId
         WHERE
-            id = #{id}
+            tmu.id = #{id}
         LIMIT 1
     </select>
 

@@ -35,7 +35,6 @@ public class JwtHelper {
     public static JSONObject getUserMessage(String jsonWebToken, String base64Security) {
         Claims c = parseJWT(jsonWebToken, base64Security);
         JSONObject json = (JSONObject) JSONObject.toJSON(c);
-        System.out.println("token解密后" + json.toString());
         return json;
     }
 
@@ -64,7 +63,7 @@ public class JwtHelper {
      * @param base64Security
      * @return
      */
-    public static String createJWT(String userId, String roleId, long TTLMillis, String base64Security) {
+    public static String createJWT(String userId, long TTLMillis, String base64Security) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
@@ -74,7 +73,6 @@ public class JwtHelper {
 
         //添加构成JWT的参数
         JwtBuilder builder = Jwts.builder().setHeaderParam("typ", "JWT")
-                .claim("roleId", roleId)
                 .claim("userId", userId)
                 .signWith(signatureAlgorithm, signingKey);
         //添加Token过期时间

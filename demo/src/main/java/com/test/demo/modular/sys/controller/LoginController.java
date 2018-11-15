@@ -1,16 +1,14 @@
 package com.test.demo.modular.sys.controller;
 
-import com.test.demo.modular.sys.entity.ManagerUser;
-import com.test.demo.modular.sys.entity.code.ManagerUserCode;
+import com.test.demo.core.redis.RedisService;
 import com.test.demo.modular.sys.service.LoginService;
-import com.test.demo.modular.sys.service.userService;
 import com.test.demo.util.JsonResult;
 import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,6 +19,8 @@ public class LoginController {
 
     @Resource
     private LoginService loginService;
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 登陆接口
@@ -44,6 +44,14 @@ public class LoginController {
         //
     }
 
+    @GetMapping("/redis/set")
+    public JsonResult set(String name ,String user) {
+//        String b = redisService.get(UserKey.getById,"hello",String.class);
+//        //设置完成的key格式 [类名字]:[UserKey.getById所得的值][自己传的key]
+//        boolean bl = redisService.set(UserKey.getById,"hello","jack");
+
+        return new JsonResult(0,null,null);
+    }
 
 
 }

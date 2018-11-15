@@ -1,9 +1,17 @@
 package com.test.demo.util;
 
+
+
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 
 public class MD5Util {
+
+    public static String md5(String str){
+        return DigestUtils.md5Hex(str);
+    }
 
     /**
      * 对字符串md5加密(小写+字母)
@@ -62,11 +70,14 @@ public class MD5Util {
     }
 
     public static void main(String[] args) {
-//        String md5 = MD5("123456");
-//        System.out.println(md5);
-//
-//        String md52 = getMD5("123456");
-//        System.out.println(md52);
+        String md5 = MD5("123456");
+        System.out.println(md5);
+
+        String md52 = getMD5("123456");
+        System.out.println(md52);
+
+        String md53 = md5("123456");
+        System.out.println(md53);
 //        int a=1000,b=1000;
 //        Integer c=266,d=266;
 //

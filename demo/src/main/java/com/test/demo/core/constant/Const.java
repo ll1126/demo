@@ -3,7 +3,6 @@ package com.test.demo.core.constant;
 public class Const {
     /**    http       **/
     public static final String content_type_json = "application/json";
-
     public static final String content_type_www = "application/x-www-form-urlencoded";
 
     /**    日期format **/

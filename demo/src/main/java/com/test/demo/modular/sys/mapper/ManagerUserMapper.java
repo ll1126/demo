@@ -59,4 +59,5 @@ public interface ManagerUserMapper {
      * @return
      */
     Integer updateManagerUser(ManagerUser managerUser);
+
 }

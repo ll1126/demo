@@ -3,15 +3,17 @@ package com.test.demo.core.aop;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
-import com.sun.xml.internal.ws.spi.db.DatabindingException;
 import com.test.demo.core.auth.ATTUser;
 import com.test.demo.util.JsonResult;
 import com.test.demo.util.JwtHelper;
+import com.test.demo.util.StringUtil;
 import io.jsonwebtoken.Claims;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
@@ -20,8 +22,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
@@ -56,6 +56,7 @@ public class WebControllerAop {
         System.out.println("我是前置通知!!!");
         //获取目标方法的参数信息
         Object[] obj = joinPoint.getArgs();
+        System.out.println(obj[0]);
         //AOP代理类的信息
         joinPoint.getThis();
         //代理的目标对象
@@ -134,15 +135,6 @@ public class WebControllerAop {
      */
     @Around("execution(* com.test.demo.modular.sys.controller..*.*(..))")
     public Object doAroundAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        System.out.println("环绕通知的目标方法名：" + proceedingJoinPoint.getSignature().getName());
-//        try {//obj之前可以写目标方法执行前的逻辑
-//            Object obj = proceedingJoinPoint.proceed();//调用执行目标方法
-//            return obj;
-//        } catch (Throwable throwable) {
-//            throwable.printStackTrace();
-//        }
-//        return null;
-
         /**   AOP中配置跨域   */
         //获取response
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
@@ -155,11 +147,8 @@ public class WebControllerAop {
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, authorization");
 
-        //获取RequestAttributes
-        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         //从获取RequestAttributes中获取HttpServletRequest的信息
-        HttpServletRequest request = (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
-
+        HttpServletRequest request = (HttpServletRequest) RequestContextHolder.getRequestAttributes().resolveReference(RequestAttributes.REFERENCE_REQUEST);
 
         /**    不带/api 的需要验证token    */
         if (!request.getRequestURI().contains("/api")) {
@@ -169,9 +158,8 @@ public class WebControllerAop {
                 return jsonResult;
             }
         }
-
-        //执行调用的方法
         long startTime = new Date().getTime();
+        //执行调用的方法
         Object proceed = proceedingJoinPoint.proceed();
         System.out.println("请求：【" + request.getRequestURI() + "】用时: " + (new Date().getTime() - startTime));
         return proceed;
@@ -183,16 +171,13 @@ public class WebControllerAop {
      *
      * @return
      */
-    public JsonResult verificationToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public JsonResult verificationToken(HttpServletRequest request, HttpServletResponse response) {
         //验证token
         String token = request.getHeader("Authorization");
         JsonResult res = new JsonResult();
         Claims c = null;
         Integer userId = null;
-        Integer roleId = null;
-        String userName = null;
-        boolean isFilter = false;
-        if (null == token || token.isEmpty()) {
+        if (StringUtil.isEmply(token)) {
             res.setCode(403);
             res.setMessage("token没有认证通过!原因为：客户端请求参数中无token信息");
         } else {
@@ -204,14 +189,11 @@ public class WebControllerAop {
             } else {
                 JSONObject jsonObject = JwtHelper.getUserMessage(token, base64Security);
                 userId = jsonObject.getInteger("userId");
-                roleId = jsonObject.getInteger("roleId");
                 if (userId != null && userId != 0) {
-                    request.setAttribute(ATTUser.USER_TOKEN, userId);
-                    request.setAttribute(ATTUser.ROLE_TOKEN, roleId);
                     Long hour = (c.getExpiration().getTime() - (new Date()).getTime()) / 1000 / 60 / 60;
                     //更新token
                     if (hour <= 24) {
-                        String refreshToken = JwtHelper.createJWT(userId.toString(), String.valueOf(roleId), ATTUser.Out_Hour_Pc * 60 * 60 * 1000, base64Security);
+                        String refreshToken = JwtHelper.createJWT(userId.toString(), ATTUser.Out_Hour_Pc * 60 * 60 * 1000, base64Security);
                         response.setHeader("Authorization", refreshToken);
                     }
                 } else {

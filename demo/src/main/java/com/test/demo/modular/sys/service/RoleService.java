@@ -13,10 +13,10 @@ public interface RoleService {
      *
      * @param role      角色实体类
      * @param checkMenu 选中的菜单id 字符串
-     * @param isUpdate  0：新增  1：修改
+     * @param isUpdate  true：修改  false：新增
      * @return
      */
-    String addRole(Role role, String checkMenu, Integer isUpdate);
+    String addRole(Role role, String checkMenu, boolean isUpdate);
 
     /**
      * 查询所有角色
@@ -30,7 +30,7 @@ public interface RoleService {
     /**
      * 删除角色
      *
-     * @param id 要删除的角色id
+     * @param id 角色id
      */
     void delRole(Integer id);
 

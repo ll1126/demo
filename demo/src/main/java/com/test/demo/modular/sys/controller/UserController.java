@@ -1,27 +1,19 @@
 package com.test.demo.modular.sys.controller;
 
-import com.test.demo.core.auth.ATTUser;
 import com.test.demo.modular.sys.entity.ManagerUser;
-import com.test.demo.modular.sys.entity.Menu;
-import com.test.demo.modular.sys.entity.User;
 import com.test.demo.modular.sys.entity.code.ManagerUserCode;
-import com.test.demo.modular.sys.service.MenuService;
 import com.test.demo.modular.sys.service.userService;
 import com.test.demo.util.JsonResult;
-import com.test.demo.util.easyExcel.ExcelUtil;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -48,16 +40,16 @@ public class UserController {
 
     /**
      * 新增一个用户 / 修改已有用户
-     * 根据 isUpdate 判断 0： 新增  1： 修改
+     * 根据 isUpdate 判断 true： 修改 false： 新增
      *
      * @param managerUser 用户实体类
      * @return
      */
     @PostMapping("/insertUser")
-    public JsonResult insertUser(ManagerUser managerUser, Integer roleId, Integer isUpdate) {
+    public JsonResult insertUser(ManagerUser managerUser, Integer roleId, boolean isUpdate) {
         String res = userService.insertUser(managerUser, roleId, isUpdate);
         if (res == null) {
-            if (isUpdate != null && isUpdate == 0) {
+            if (!isUpdate) {
                 res = "添加用户成功";
             } else {
                 res = "修改用户成功";
@@ -69,7 +61,7 @@ public class UserController {
     /**
      * 删除一个用户
      *
-     * @param id 要删除的用户id
+     * @param id 用户id
      * @return
      */
     @GetMapping("/delUser")
@@ -84,13 +76,11 @@ public class UserController {
      * @param oldPwd             旧密码
      * @param firstNewPwd        第一次新密码
      * @param secondNewPwd       第二次新密码
-     * @param httpServletRequest
      * @return
      */
     @PostMapping("/updatePwd")
-    public JsonResult updatePwd(String oldPwd, String firstNewPwd, String secondNewPwd, HttpServletRequest httpServletRequest) {
-        String userId = String.valueOf(httpServletRequest.getAttribute(ATTUser.USER_TOKEN));
-        String res = userService.updatePwd(userId, oldPwd, firstNewPwd, secondNewPwd);
+    public JsonResult updatePwd(String oldPwd, String firstNewPwd, String secondNewPwd, ManagerUser user) {
+        String res = userService.updatePwd(user, oldPwd, firstNewPwd, secondNewPwd);
         if (res != null) {
             return new JsonResult(1, null, res);
         }
@@ -104,19 +94,24 @@ public class UserController {
      * @throws IOException
      */
     @GetMapping("/api/downUser")
-    public void downUser(HttpServletResponse response) throws IOException {
+    public void downUser(HttpServletResponse response) {
         userService.downUser(response);
     }
 
     /**
      * 测试
      *
-     * @param response
      * @throws IOException
      */
     @GetMapping("/api/async")
-    public void async(HttpServletResponse response) throws IOException, ExecutionException, InterruptedException {
+    public void async() throws IOException, ExecutionException, InterruptedException {
         userService.asyncTest();
+    }
+
+    @RequestMapping("/api/index")
+    public String userList2(Model model) throws Exception {
+        model.addAttribute("hello","Hello, Spring Boot!");
+        return "/Hello";
     }
 
 

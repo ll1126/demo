@@ -1,7 +1,5 @@
 package com.test.demo.util.baiDuApi;
 
-import com.alibaba.fastjson.JSONObject;
-import com.test.demo.core.HttpUtilException;
 import com.test.demo.core.constant.Const;
 import com.test.demo.util.BaseImg64;
 import com.test.demo.util.HttpUtil;
@@ -17,8 +15,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 图像文字识别

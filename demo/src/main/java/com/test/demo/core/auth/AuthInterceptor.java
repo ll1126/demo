@@ -84,7 +84,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         Long hour = (c.getExpiration().getTime() - (new Date()).getTime()) / 1000 / 60 / 60;
         //时间小于24小时再生成一个新的token
         if (hour <= 24) {
-            String refreshToken = JwtHelper.createJWT(userId.toString(), String.valueOf(roleId), ATTUser.Out_Hour_Pc * 60 * 60 * 1000, base64Security);
+            String refreshToken = JwtHelper.createJWT(userId.toString(), ATTUser.Out_Hour_Pc * 60 * 60 * 1000, base64Security);
             response.setHeader("Authorization", refreshToken);
         }
 

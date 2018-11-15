@@ -55,20 +55,19 @@ public class userServiceImpl implements userService {
      *
      * @param managerUser 用户实体类
      * @param roleId      角色id
-     * @param isUpdate    0: 新增  1：修改
+     * @param isUpdate    true： 修改 false： 新增
      * @return
      */
     @Transactional
-    public String insertUser(ManagerUser managerUser, Integer roleId, Integer isUpdate) {
+    public String insertUser(ManagerUser managerUser, Integer roleId, boolean isUpdate) {
         //新增用户
 
-        if (isUpdate != null && isUpdate == 0) {
+        if (!isUpdate) {
             ManagerUser managerUser1 = managerUserMapper.selUserBymanagerName(managerUser.getManagerName());
             if (managerUser1 != null) {
                 return "姓名重复，请加个标识区分";
             }
             //新增一个用户
-
             managerUser.setCreateTime(new Date());
             //默认密码 123456
             managerUser.setManagerPassword(MD5Util.getMD5("123456"));
@@ -78,17 +77,13 @@ public class userServiceImpl implements userService {
             managerRoleMapper.getInsert(managerRole);
         } else {
             //修改已有用户信息
-
             //修改基本信息
             managerUserMapper.updateManagerUser(managerUser);
             if (roleId != null) {
                 //修改角色对应信息
                 managerRoleMapper.updateByManagerId(managerUser.getId(), roleId);
             }
-
-
         }
-
         return null;
     }
 
@@ -121,19 +116,19 @@ public class userServiceImpl implements userService {
     /**
      * 修改密码
      *
-     * @param userId       用户id
+     * @param user 当前登录的用户
      * @param oldPwd       旧密码
      * @param firstNewPwd  第一次新密码
      * @param secondNewPwd 第二次新密码
      * @return
      */
     @Override
-    public String updatePwd(String userId, String oldPwd, String firstNewPwd, String secondNewPwd) {
+    public String updatePwd(ManagerUser user, String oldPwd, String firstNewPwd, String secondNewPwd) {
         if (oldPwd == null || firstNewPwd == null || secondNewPwd == null) {
             return "参数不完整";
         }
 
-        ManagerUser managerUser = managerUserMapper.selUserBymanagerId(userId);
+        ManagerUser managerUser = managerUserMapper.selUserBymanagerId(String.valueOf(user.getId()));
         if (managerUser == null) {
             return "账号异常,请重新登陆";
         }
@@ -147,7 +142,7 @@ public class userServiceImpl implements userService {
             return "两次新密码不相同";
         }
         ManagerUser newManagerUser = new ManagerUser();
-        newManagerUser.setId(Integer.valueOf(userId));
+        newManagerUser.setId(user.getId());
         newManagerUser.setManagerPassword(MD5Util.getMD5(firstNewPwd));
         Integer res = managerUserMapper.updateManagerUser(newManagerUser);
         if (res == 0) {
